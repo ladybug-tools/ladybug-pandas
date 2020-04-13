@@ -1,6 +1,12 @@
 import operator
 
 from pandas.api.extensions import ExtensionArray, ExtensionDtype, ExtensionScalarOpsMixin
+from pandas.core.arrays.base import try_cast_to_ea
+from pandas.core import ops
+from pandas.compat import set_function_name
+from pandas.core.dtypes.generic import ABCExtensionArray, ABCIndexClass, ABCSeries
+from pandas.core.dtypes.common import is_array_like, is_list_like
+
 from typing import Sequence, Any, Union
 from pandas.core.dtypes.generic import ABCExtensionArray
 
@@ -8,15 +14,138 @@ from pandas._typing import ArrayLike
 import numpy as np
 import pandas as pd
 
-from ladybug_pandas.datatype import LadybugDtype
+from scipy import stats
 
-class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
+# from ladybug_pandas.datatype import LadybugDtype
+
+class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
+    """
+    A mixin for defining  ops on an ExtensionArray.
+
+    It is assumed that the underlying scalar objects have the operators
+    already defined.
+
+    Notes
+    -----
+    If you have defined a subclass MyExtensionArray(ExtensionArray), then
+    use MyExtensionArray(ExtensionArray, ExtensionScalarOpsMixin) to
+    get the arithmetic operators.  After the definition of MyExtensionArray,
+    insert the lines
+
+    MyExtensionArray._add_arithmetic_ops()
+    MyExtensionArray._add_comparison_ops()
+
+    to link the operators to your class.
+
+    .. note::
+
+       You may want to set ``__array_priority__`` if you want your
+       implementation to be called when involved in binary operations
+       with NumPy arrays.
+    """
+
+    @classmethod
+    def _create_method(cls, op, coerce_to_dtype=True):
+        """
+        A class method that returns a method that will correspond to an
+        operator for an ExtensionArray subclass, by dispatching to the
+        relevant operator defined on the individual elements of the
+        ExtensionArray.
+
+        Parameters
+        ----------
+        op : function
+            An operator that takes arguments op(a, b)
+        coerce_to_dtype : bool, default True
+            boolean indicating whether to attempt to convert
+            the result to the underlying ExtensionArray dtype.
+            If it's not possible to create a new ExtensionArray with the
+            values, an ndarray is returned instead.
+
+        Returns
+        -------
+        Callable[[Any, Any], Union[ndarray, ExtensionArray]]
+            A method that can be bound to a class. When used, the method
+            receives the two arguments, one of which is the instance of
+            this class, and should return an ExtensionArray or an ndarray.
+
+            Returning an ndarray may be necessary when the result of the
+            `op` cannot be stored in the ExtensionArray. The dtype of the
+            ndarray uses NumPy's normal inference rules.
+
+        Examples
+        --------
+        Given an ExtensionArray subclass called MyExtensionArray, use
+
+        >>> __add__ = cls._create_method(operator.add)
+
+        in the class definition of MyExtensionArray to create the operator
+        for addition, that will be based on the operator implementation
+        of the underlying elements of the ExtensionArray
+        """
+
+        def _binop(self, other):
+            def convert_values(param):
+                if isinstance(param, ExtensionArray) or is_list_like(param):
+                    ovalues = param
+                else:  # Assume its an object
+                    ovalues = [param] * len(self)
+                return ovalues
+
+            if isinstance(other, (ABCSeries, ABCIndexClass)):
+                # rely on pandas to unbox and dispatch to us
+                return NotImplemented
+
+            lvalues = self
+            rvalues = convert_values(other)
+
+            # If the operator is not defined for the underlying objects,
+            # a TypeError should be raised
+            res = [op(a, b) for (a, b) in zip(lvalues, rvalues)]
+
+            def _maybe_convert(arr):
+                if coerce_to_dtype:
+                    # https://github.com/pandas-dev/pandas/issues/22850
+                    # We catch all regular exceptions here, and fall back
+                    # to an ndarray.
+                    if isinstance(rvalues, ExtensionArray) and rvalues.dtype != self.dtype:
+                        res = np.asarray(arr)
+                    else:
+                        print("ABOUT TO CAST TO EA")
+                        res = try_cast_to_ea(self, arr)
+                        print("CAST TO EA")
+                    if not isinstance(res, type(self)):
+                        # exception raised in _from_sequence; ensure we have ndarray
+                        res = np.asarray(arr)
+                else:
+                    res = np.asarray(arr)
+                return res
+
+            if op.__name__ in {"divmod", "rdivmod"}:
+                a, b = zip(*res)
+                return _maybe_convert(a), _maybe_convert(b)
+
+            return _maybe_convert(res)
+
+        op_name = ops._get_op_name(op, True)
+        return set_function_name(_binop, op_name, cls)
+
+
+class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
+
+    # _dtype = LadybugDtype()
 
     def __init__(self, values, dtype=None, copy=False):
 
-        self._dtype = dtype
+        # self._dtype = dtype
+        if dtype is not None:
+            if isinstance(dtype, str):
+                # Will raise error if not right
+                self._dtype.construct_from_string(dtype)
+            else:
+                self._dtype = dtype
 
-        if isinstance(dtype, ExtensionDtype):
+        if isinstance(dtype, ExtensionDtype) or dtype is None:
             values = np.asarray(values, dtype=np.float_)
         else:
             values = np.asarray(value, dtype=dtype)
@@ -47,16 +176,14 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         ExtensionArray
         """
 
-        print(dtype)
-        print(type(scalars))
-
         if dtype is None:
             if isinstance(scalars, cls):
+                print("DTYPE IS INSTACE OF CLASS")
                 dtype = scalars.dtype
             elif isinstance(scalars, list) and isinstance(scalars[0], np.bool_):
                 dtype = np.dtype("bool")
             else:
-                dtype = LadybugDtype()
+                dtype = cls._dtype
 
         return cls(scalars, dtype=dtype, copy=copy)
 
@@ -262,6 +389,16 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
             else:
                 raise error
 
+    
+    # def __add__(self, other):
+        
+    #     if isinstance(other, self.__class__):
+    #         self.data += other.data
+
+    #     elif isinstance(other, (float, int, np.array)):
+    #         self.data += other
+
+    #     # elif isi
 
     @property
     def dtype(self) -> ExtensionDtype:
@@ -279,6 +416,53 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         # on the number of bytes needed.
         # return self._itemsize * self.__len__
         return self.data.nbytes
+
+
+    def _reduce(self, name, skipna=True, **kwargs):
+        """
+        Return a scalar result of performing the reduction operation.
+        Parameters
+        ----------
+        name : str
+            Name of the function, supported values are:
+            { any, all, min, max, sum, mean, median, prod,
+            std, var, sem, kurt, skew }.
+        skipna : bool, default True
+            If True, skip NaN values.
+        **kwargs
+            Additional keyword arguments passed to the reduction function.
+            Currently, `ddof` is the only supported kwarg.
+        Returns
+        -------
+        scalar
+        Raises
+        ------
+        TypeError : subclass does not define reductions
+        """
+        
+        root = np
+
+        child_kwargs = {}
+
+        if 'ddof' in kwargs:
+            child_kwargs['ddof'] = kwargs['ddof']
+
+        if name == 'kurt':
+            child_kwargs['bias'] = False
+            name = 'kurtosis'
+            root = stats
+
+        if name == 'skew':
+            child_kwargs['bias'] = False
+            root = stats
+
+        if skipna is True:
+            # return getattr(self.data[~np.isnan(self.data)], name)(**child_kwargs)
+            return getattr(root, name)(self.data[~np.isnan(self.data)], **child_kwargs)
+        else:
+            # return getattr(self.data, name)(**child_kwargs)
+            return getattr(root, name)(self.data, **child_kwargs)
+
 
     def isna(self) -> ArrayLike:
         """
@@ -403,41 +587,6 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         
         return copy
 
-        # if not allow_fill:
-        #     copy.data = np.take(copy.data, indices)
-        # else:
-        #     pd.api.extensions.take(copy.data, indices, allow_fill=allow_fill, fill_value=fill_value)
-        # # print(self.data)
-        # return copy
-
-        # indices = np.asarray(indices, dtype='int')
-
-        # if allow_fill and fill_value is None:
-        #     fill_value = unpack(pack(int(self.na_value)))
-        # elif allow_fill and not isinstance(fill_value, tuple):
-        #     fill_value = unpack(pack(int(fill_value)))
-
-        # if allow_fill:
-        #     mask = (indices == -1)
-        #     if not len(self):
-        #         if not (indices == -1).all():
-        #             msg = "Invalid take for empty array. Must be all -1."
-        #             raise IndexError(msg)
-        #         else:
-        #             # all NA take from and empty array
-        #             took = (np.full((len(indices), 2), fill_value, dtype='>u8')
-        #                       .reshape(-1).astype(self.dtype._record_type))
-        #             return self._from_factorized(took, self)
-        #     if (indices < -1).any():
-        #         msg = ("Invalid value in 'indicies'. Must be all >= -1 "
-        #                "for 'allow_fill=True'")
-        #         raise ValueError(msg)
-
-        # took = self.data.take(indices)
-        # if allow_fill:
-        #     took[mask] = fill_value
-
-        # return self._from_factorized(took, self)
 
     def copy(self) -> "ExtensionArray":
         """

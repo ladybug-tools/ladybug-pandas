@@ -6,28 +6,7 @@ import numpy as np
 
 from ladybug.datatype.base import DataTypeBase
 
-from ladybug.datatype.temperature import Temperature
-
 from ladybug_pandas.arraytype import LadybugArrayType
-
-# class LadybugDtype(ExtensionDtype):
-    
-#     type = DataTypeBase()
-#     name = "base"
-#     _is_numeric = True
-
-#     @classmethod
-#     def construct_from_string(cls, string):
-#         if not isinstance(string, str):
-#             raise TypeError(
-#                 "'construct_from_string' expects a string, got {}".format(type(string))
-#             )
-#         elif string == cls.name:
-#             return cls()
-#         else:
-#             raise TypeError(
-#                 "Cannot construct a '{}' from '{}'".format(cls.__name__, string)
-#             )
 
 
 def LadybugTypeFactory(cls):
@@ -83,10 +62,8 @@ def LadybugDtypeFactory(klass):
         "type": np.float_,
         "name": klass.__name__,
         "_is_numeric": True,
-        # "construct_from_string": construct_from_string,
         "construct_array_type": construct_array_type,
         "kind": 'f',
-        # "_record_type": np.dtype([('hi', '>u8'), ('lo', '>u8')])
 
     }
 
