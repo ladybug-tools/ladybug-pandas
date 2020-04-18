@@ -10,7 +10,7 @@ import numpy as np
 from ladybug.datatype.temperature import DryBulbTemperature
 from ladybug.epw import EPW
 
-from ladybug_pandas.factories.datatype import LadybugTypeFactory, LadybugDtypeFactory
+from ladybug_pandas.factories.datatype import LadybugDtypeFactory
 # from ladybug_pandas.factories.arraytype import LadybugArrayFactory
 # from ladybug_pandas.arraytype import LadybugArrayType
 
