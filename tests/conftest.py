@@ -18,9 +18,8 @@ from ladybug_pandas.factories.arraytype import LadybugArrayFactory
 
 @pytest.fixture(scope='session')
 def dtype_class():
-    dbt_type = LadybugTypeFactory(DryBulbTemperature)
 
-    return LadybugDtypeFactory(dbt_type)
+    return LadybugDtypeFactory(DryBulbTemperature)
 
 @pytest.fixture(scope='session')
 def dtype(dtype_class):

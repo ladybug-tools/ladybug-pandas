@@ -9,33 +9,6 @@ from ladybug.datatype.base import DataTypeBase
 from ladybug_pandas.arraytype import LadybugArrayType
 
 
-def LadybugTypeFactory(cls):
-    """Class factory for ladyug datatype class to work with pandas
-    
-    Arguments:
-        cls {Class} -- A ladybug datatype class
-    
-    Returns:
-        class -- A pandas compliant ladybug datatype class
-    """
-
-    def _is_numeric(values):
-        pass
-
-    def _to_unit_base(self, base_unit, values, unit, from_unit):
-        pass
-
-    class_dict = {
-        "_is_numeric": _is_numeric,
-        "_to_unit_base": _to_unit_base
-    }
-
-    return type(
-        cls.__name__,
-        (cls,),
-        class_dict,
-    )
-
 def LadybugDtypeFactory(klass):
 
     @classmethod

@@ -14,8 +14,25 @@ pip install ladybug-pandas
 
 ## QuickStart
 ```python
-import ladybug_pandas
+from ladybug.datatype.temperature import DryBulbTemperature
 
+from ladybug_pandas.factories.datatype import LadybugDtypeFactory
+from ladybug_pandas.factories.arraytype import LadybugArrayFactory
+
+# Generate pandas extension datatype class
+DryBulbTempExtensionDType = LadybugDtypeFactory(DryBulbTemperature)
+
+# Generate pandas extension array class
+DryBulbTempExtensionArray = LadybugArrayFactory(DryBulbTempExtensionDType)
+
+# Generate a pandas array from a datacollection
+epw_path = 'tests/assets/epw/tokyo.epw'
+
+epw = EPW(epw_path)
+
+lb_data_collection = epw.dry_bulb_temperature
+
+lb_array = DryBulbTempExtensionArray(lb_data_collection.values)
 ```
 
 ## [API Documentation](http://ladybug-tools.github.io/ladybug-pandas/docs)
