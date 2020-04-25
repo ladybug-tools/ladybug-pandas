@@ -44,6 +44,16 @@ class TestBaseArithmeticOps(base.BaseArithmeticOpsTests):
     def test_error(self):
         pass
 
+    def test_divmod_series_array(self, data, data_for_twos):
+        s = pd.Series(data)
+        self._check_divmod_op(s, divmod, data, exc=self.divmod_exc)
+
+        other = data_for_twos
+        self._check_divmod_op(other, ops.rdivmod, s, exc=self.divmod_exc)
+
+        other = pd.Series(other)
+        self._check_divmod_op(other, ops.rdivmod, s, exc=self.divmod_exc)
+
 # class TestBaseComparisonOps(base.BaseComparisonOpsTests):
 
 #     def _compare_other(self, s, data, op_name, other):
