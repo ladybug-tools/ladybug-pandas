@@ -1,6 +1,7 @@
 import pytest
 from pandas.tests.extension import base
 import pandas as pd
+from pandas.core import ops
 
 
 class TestCasting(base.BaseCastingTests):
