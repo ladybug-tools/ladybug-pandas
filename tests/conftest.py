@@ -7,27 +7,13 @@ from pandas.core import ops
 from pandas import Series
 import numpy as np
 
-from ladybug.datatype.temperature import DryBulbTemperature
 from ladybug.epw import EPW
 
-from ladybug_pandas.factories.datatype import LadybugDtypeFactory
-# from ladybug_pandas.factories.arraytype import LadybugArrayFactory
-# from ladybug_pandas.arraytype import LadybugArrayType
+from ladybug_pandas.extension_types.dtype import LadybugDType
+from ladybug_pandas.extension_types.arraytype import LadybugArrayType
 
-from ladybug_pandas.factories.arraytype import LadybugArrayFactory
 
 @pytest.fixture(scope='session')
-def dtype_class():
-
-    return LadybugDtypeFactory(DryBulbTemperature)
-
-@pytest.fixture(scope='session')
-def dtype(dtype_class):
-    """A fixture providing the ExtensionDtype to validate."""
-    return dtype_class()
-
-
-@pytest.fixture
 def dbt_data_collection():
     epw_path = 'tests/assets/epw/tokyo.epw'
 
@@ -35,21 +21,31 @@ def dbt_data_collection():
 
     return epw.dry_bulb_temperature
 
-@pytest.fixture
-def dbt_array(dtype):
-    return LadybugArrayFactory(dtype)
+
+@pytest.fixture(scope='session')
+def dtype(dbt_data_collection):
+    """A fixture providing the ExtensionDtype to validate."""
+    return LadybugDType.construct_from_header(dbt_data_collection.header)
+
+
+# @pytest.fixture
+# def dbt_array(dtype):
+#     return LadybugArrayType
 
 @pytest.fixture
-def data(dbt_data_collection, dbt_array):
+def data(dbt_data_collection, dtype):
     """
     Length-100 array for this type.
     * data[0] and data[1] should both be non missing
     * data[0] and data[1] should not be equal
     """
 
-    values = dbt_data_collection.values[:100]
+    # values = dbt_data_collection.values[:100]
 
-    return dbt_array(values)
+    # return dbt_array(values)
+    # dbt_data_collection.values = dbt_data_collection[:100]
+
+    return LadybugArrayType(dbt_data_collection.values[:100], dtype=dtype)
 
 
 @pytest.fixture
@@ -59,9 +55,9 @@ def data_for_twos():
 
 
 @pytest.fixture
-def data_missing(dbt_array):
+def data_missing(dtype):
     """Length-2 array with [NA, Valid]"""
-    return dbt_array([np.nan, 3.4])
+    return LadybugArrayType([np.nan, 3.4], dtype=dtype)
 
 
 @pytest.fixture(params=["data", "data_missing"])
@@ -95,29 +91,29 @@ def data_repeated(data):
 
 
 @pytest.fixture
-def data_for_sorting(dbt_array):
+def data_for_sorting(dtype):
     """
     Length-3 array with a known sort order.
     This should be three items [B, C, A] with
     A < B < C
     """
-    return dbt_array([5, 10, 2])
+    return LadybugArrayType([5, 10, 2], dtype=dtype)
 
 
 @pytest.fixture
-def data_missing_for_sorting(dbt_array):
+def data_missing_for_sorting(dtype):
     """
     Length-3 array with a known sort order.
     This should be three items [B, NA, A] with
     A < B and NA missing.
     """
-    return dbt_array([5, None, 2])
+    return LadybugArrayType([5, None, 2], dtype=dtype)
 
 
 @pytest.fixture
-def data_for_twos(dbt_array):
+def data_for_twos(dtype):
     """Length-100 array in which all the elements are two."""
-    return dbt_array([2]*100)
+    return LadybugArrayType([2]*100, dtype=dtype)
 
 @pytest.fixture
 def na_cmp():
@@ -141,13 +137,13 @@ def na_value():
 
 
 @pytest.fixture
-def data_for_grouping(dbt_array):
+def data_for_grouping(dtype):
     """
     Data for factorization, grouping, and unique tests.
     Expected to be like [B, B, NA, NA, A, A, B, C]
     Where A < B < C and NA is missing
     """
-    return dbt_array([3, 3, None, None, 1, 1, 3, 5])
+    return LadybugArrayType([3, 3, None, None, 1, 1, 3, 5], dtype=dtype)
 
 
 @pytest.fixture(params=[True, False])

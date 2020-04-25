@@ -5,19 +5,11 @@ import pandas as pd
 from ladybug.datatype.temperature import DryBulbTemperature
 from ladybug.datatype.energyintensity import DirectNormalRadiation
 from ladybug.epw import EPW
-from ladybug_pandas.factories.datatype import LadybugDtypeFactory
-from ladybug_pandas.factories.arraytype import LadybugArrayFactory
 
-@pytest.fixture()
-def temp_array(dtype):
-    return LadybugArrayFactory(dtype)
+from ladybug_pandas.extension_types.dtype import LadybugDType
+from ladybug_pandas.extension_types.arraytype import LadybugArrayType
 
-@pytest.fixture()
-def dnr_array():
-
-    dnr_dtype = LadybugDtypeFactory(DirectNormalRadiation)
-
-    return LadybugArrayFactory(dnr_dtype())
+from ladybug_pandas import dataframe_from_collections, dataframe_from_epw
 
 @pytest.fixture()
 def epw():
@@ -26,18 +18,37 @@ def epw():
     return EPW(epw_path)
 
 @pytest.fixture()
-def temp_series(temp_array, epw):
-    return pd.Series(temp_array(epw.dry_bulb_temperature))
+def temp_series(epw):
+    return pd.Series(LadybugArrayType._from_data_collection(epw.dry_bulb_temperature))
 
 @pytest.fixture()
-def dnr_series(dnr_array, epw):
-    return pd.Series(dnr_array(epw.direct_normal_radiation))
+def dnr_series(epw):
+    return pd.Series(LadybugArrayType._from_data_collection(epw.direct_normal_radiation))
 
 
 def test_addition(temp_series, dnr_series):
     res = temp_series + dnr_series
 
-    print(res)
-    print(type(res.array))
+    # should not raise
 
-    # assert False
+
+def test_conversion(temp_series):
+
+    array = temp_series.values
+
+    new_array = array.to_ip()
+
+    # should not raise
+
+
+def test_from_collections(epw):
+
+    df = dataframe_from_collections([epw.dry_bulb_temperature, epw.direct_normal_radiation])
+
+    # should not raise
+
+def test_from_epw(epw):
+
+    df = dataframe_from_epw(epw)
+
+    # should not raise
