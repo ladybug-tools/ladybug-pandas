@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/ladybug-tools/ladybug-pandas.svg?branch=master)](https://travis-ci.org/ladybug-tools/ladybug-pandas)
 [![Coverage Status](https://coveralls.io/repos/github/ladybug-tools/ladybug-pandas/badge.svg?branch=master)](https://coveralls.io/github/ladybug-tools/ladybug-pandas)
 
-[![Python 2.7](https://img.shields.io/badge/python-2.7-green.svg)](https://www.python.org/downloads/release/python-270/) [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
 # ladybug-pandas
 
@@ -14,25 +14,17 @@ pip install ladybug-pandas
 
 ## QuickStart
 ```python
-from ladybug.datatype.temperature import DryBulbTemperature
+import ladybug_pandas as lbp
+from ladybug.epw import EPW
 
-from ladybug_pandas.factories.datatype import LadybugDtypeFactory
-from ladybug_pandas.factories.arraytype import LadybugArrayFactory
-
-# Generate pandas extension datatype class
-DryBulbTempExtensionDType = LadybugDtypeFactory(DryBulbTemperature)
-
-# Generate pandas extension array class
-DryBulbTempExtensionArray = LadybugArrayFactory(DryBulbTempExtensionDType)
-
-# Generate a pandas array from a datacollection
 epw_path = 'tests/assets/epw/tokyo.epw'
 
 epw = EPW(epw_path)
 
-lb_data_collection = epw.dry_bulb_temperature
+df = lbp.dataframe_from_epw(epw)
 
-lb_array = DryBulbTempExtensionArray(lb_data_collection.values)
+df_ip = df.ladybug.to_ip()
+
 ```
 
 ## [API Documentation](http://ladybug-tools.github.io/ladybug-pandas/docs)
