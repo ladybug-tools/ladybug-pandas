@@ -7,7 +7,7 @@ from pandas.compat import set_function_name
 from pandas.core.dtypes.generic import ABCExtensionArray, ABCIndexClass, ABCSeries
 from pandas.core.dtypes.common import is_array_like, is_list_like
 
-from typing import Sequence, Any, Union
+from typing import Sequence, Any, Union, List
 from pandas.core.dtypes.generic import ABCExtensionArray
 
 from pandas._typing import ArrayLike
@@ -16,7 +16,15 @@ import pandas as pd
 
 from scipy import stats
 
-# from ladybug_pandas.datatype import LadybugDtype
+from pandas.core.arrays.numpy_ import PandasArray
+
+from ladybug.datacollection import BaseCollection, HourlyDiscontinuousCollection
+from ladybug.dt import DateTime
+
+from .dtype import LadybugDType
+
+
+COMPARISON_OPS = ['eq', 'ne', 'lt', 'gt', 'le', 'ge']
 
 class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
     """
@@ -96,8 +104,26 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
                 # rely on pandas to unbox and dispatch to us
                 return NotImplemented
 
-            lvalues = self
-            rvalues = convert_values(other)
+            if isinstance(other, LadybugArrayType):
+                if self.dtype == other.dtype:
+                    lvalues = self
+                    rvalues = other
+                else:
+
+                    lvalues = self.data
+                    rvalues = other.data
+
+                    # Special case for comparison operations
+                    # Values cannot be compared if they are
+                    # of a different LadybugDType
+                    if op.__name__ in COMPARISON_OPS:
+                        res = [False]* len(lvalues)
+                        return res
+
+            else:
+                lvalues = self.data
+                rvalues = convert_values(other)
+
 
             # If the operator is not defined for the underlying objects,
             # a TypeError should be raised
@@ -111,9 +137,7 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
                     if isinstance(rvalues, ExtensionArray) and rvalues.dtype != self.dtype:
                         res = np.asarray(arr)
                     else:
-                        print("ABOUT TO CAST TO EA")
                         res = try_cast_to_ea(self, arr)
-                        print("CAST TO EA")
                     if not isinstance(res, type(self)):
                         # exception raised in _from_sequence; ensure we have ndarray
                         res = np.asarray(arr)
@@ -134,6 +158,7 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
 class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
 
     # _dtype = LadybugDtype()
+    _dtype = LadybugDType()
 
     def __init__(self, values, dtype=None, copy=False):
 
@@ -147,8 +172,11 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
 
         if isinstance(dtype, ExtensionDtype) or dtype is None:
             values = np.asarray(values, dtype=np.float_)
+        elif isinstance(values, LadybugArrayType):
+            values = values.data
+            self._dtype = values.dtype
         else:
-            values = np.asarray(value, dtype=dtype)
+            values = np.asarray(values, dtype=dtype)
 
         # TODO: dtype?
         if copy:
@@ -175,15 +203,13 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         -------
         ExtensionArray
         """
-
         if dtype is None:
             if isinstance(scalars, cls):
-                print("DTYPE IS INSTACE OF CLASS")
                 dtype = scalars.dtype
             elif isinstance(scalars, list) and isinstance(scalars[0], np.bool_):
                 dtype = np.dtype("bool")
             else:
-                dtype = cls._dtype
+                dtype = None
 
         return cls(scalars, dtype=dtype, copy=copy)
 
@@ -236,6 +262,58 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         return cls(values, dtype)
         
 
+    @classmethod
+    def _from_data_collection(cls, datacollection: BaseCollection):
+        dtype =  LadybugDType.construct_from_header(datacollection.header)
+
+        return cls(values=datacollection.values, dtype=dtype)
+
+    
+    # def to_hourly_discontinuous_collection(self, datetimes: List[DateTime]) -> HourlyDiscontinuousCollection:
+    #     assert len(self.data) == len(datetimes), f'Datetime index of length {len(datetimes)} does not match length of array {len(self)}'
+
+    #     return HourlyDiscontinuousCollection(
+    #         header=self.dtype.to_header(),
+    #         values=self.data.tolist(),
+    #         datetimes=datetimes,    
+    #     )
+
+
+    def convert_to_unit(self, unit):
+        """Convert the Data Collection to the input unit."""
+        self.data = self.dtype.data_type.to_unit(
+            self.data, unit, self.dtype.unit)
+        self.dtype.unit = unit
+
+    def convert_to_ip(self):
+        """Convert the Data Collection to IP units."""
+        self.data, self.dtype.unit = self.dtype.data_type.to_ip(
+                self.data, self.dtype.unit)
+
+    def convert_to_si(self):
+        """Convert the Data Collection to SI units."""
+        self.data, self.dtype.unit = self.dtype.data_type.to_si(
+                self.data, self.dtype.unit)
+
+    def to_unit(self, unit):
+        """Return a Data Collection in the input unit."""
+        new_data_c = self.copy()
+        new_data_c.convert_to_unit(unit)
+        return new_data_c
+
+    def to_ip(self):
+        """Return a Data Collection in IP units."""
+        new_data_c = self.copy()
+        new_data_c.convert_to_ip()
+        return new_data_c
+
+    def to_si(self):
+        """Return a Data Collection in SI units."""
+        new_data_c = self.copy()
+        new_data_c.convert_to_si()
+        return new_data_c
+
+
     def __getitem__(self, item):
         # type (Any) -> Any
         """
@@ -261,6 +339,8 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         """
         if isinstance(item, int):
             datum = self.data[item]
+            # print(f"GETTING ITEM from {self.dtype.name}")
+            # print(type(datum))
             return self.data[item]
         elif isinstance(item, slice):
             pass
@@ -406,6 +486,11 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         An instance of 'ExtensionDtype'.
         """
         return self._dtype
+        # if self._dtype is None:
+        #     return self.data.dtype
+        # else:
+        #     return self._dtype
+
 
     @property
     def nbytes(self) -> int:
@@ -417,6 +502,10 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         # return self._itemsize * self.__len__
         return self.data.nbytes
 
+
+    @property
+    def _ndarray(self):
+        return self.data
 
     def _reduce(self, name, skipna=True, **kwargs):
         """
