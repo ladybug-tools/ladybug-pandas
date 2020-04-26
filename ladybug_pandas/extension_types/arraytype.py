@@ -264,6 +264,14 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
 
     @classmethod
     def _from_data_collection(cls, datacollection: BaseCollection):
+        """Generate a Ladybug Array from a Ladybug DataCollection
+
+        Arguments:
+            datacollection {BaseCollection} -- A ladybug data collection
+
+        Returns:
+            LadybugArrayType -- A Ladybug Array
+        """
         dtype =  LadybugDType.construct_from_header(datacollection.header)
 
         return cls(values=datacollection.values, dtype=dtype)
@@ -279,8 +287,12 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
     #     )
 
 
-    def convert_to_unit(self, unit):
-        """Convert the Data Collection to the input unit."""
+    def convert_to_unit(self, unit: str):
+        """Convert the Data Collection to the input unit
+
+        Arguments:
+            unit {str} -- A unit string that exists for the data type
+        """
         self.data = self.dtype.data_type.to_unit(
             self.data, unit, self.dtype.unit)
         self.dtype.unit = unit
@@ -296,19 +308,34 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
                 self.data, self.dtype.unit)
 
     def to_unit(self, unit):
-        """Return a Data Collection in the input unit."""
+        """Return a Data Collection in the input unit
+        
+        Arguments:
+            unit {str} -- A unit string that exists for the data type
+
+        Returns:
+            LadybugArrayType -- A Ladybug Array converted to the desired unit
+        """
         new_data_c = self.copy()
         new_data_c.convert_to_unit(unit)
         return new_data_c
 
     def to_ip(self):
-        """Return a Data Collection in IP units."""
+        """Return a Data Collection in IP units
+
+        Returns:
+            LadybugArrayType -- A Ladybug Array converted to the desired unit
+        """
         new_data_c = self.copy()
         new_data_c.convert_to_ip()
         return new_data_c
 
     def to_si(self):
-        """Return a Data Collection in SI units."""
+        """Return a Data Collection in SI units
+        
+        Returns:
+            LadybugArrayType -- A Ladybug Array converted to the desired unit
+        """
         new_data_c = self.copy()
         new_data_c.convert_to_si()
         return new_data_c

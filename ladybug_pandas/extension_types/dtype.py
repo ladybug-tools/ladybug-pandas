@@ -78,16 +78,23 @@ class LadybugDType(ExtensionDtype):
 
         return cls(data_type=data_type, unit=unit)
 
-
-    @classmethod
-    def construct_from_header(cls, header: Header):
-        return cls(data_type=header.data_type, unit=header.unit)
-
     @classmethod
     def construct_array_type(cls):
         from .arraytype import LadybugArrayType
 
         return LadybugArrayType
+
+    @classmethod
+    def construct_from_header(cls, header: Header):
+        """[summary]
+
+        Arguments:
+            header {Header} -- [description]
+
+        Returns:
+            [type] -- [description]
+        """
+        return cls(data_type=header.data_type, unit=header.unit)
 
     def to_header(self):
         """Cast the ExtensionDtyp to a ladybug header object
