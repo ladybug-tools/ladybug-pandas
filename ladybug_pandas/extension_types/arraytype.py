@@ -1,4 +1,5 @@
 import operator
+from copy import deepcopy
 
 from pandas.api.extensions import ExtensionArray, ExtensionDtype, ExtensionScalarOpsMixin
 from pandas.core.arrays.base import try_cast_to_ea
@@ -181,6 +182,9 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         # TODO: dtype?
         if copy:
             values = values.copy()
+            self._dtype = deepcopy(self._dtype)
+            # if isinstance(self._dtype, LadybugDType):
+            #     self._dtype = copy.deepcopy(self._dtype)
 
         self.data = values
         
@@ -709,7 +713,11 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         -------
         ExtensionArray
         """
-        return self.__class__._from_factorized(self.data.copy(), self)
+        # return self.__class__._from_factorized(self.data.copy(), self)
+        return self.__class__(
+            values=self.data.copy(),
+            dtype=self.dtype,
+        )
 
 
     def view(self, dtype=None) -> Union[ABCExtensionArray, np.ndarray]:
