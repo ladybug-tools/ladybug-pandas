@@ -74,7 +74,10 @@ class PsychrometricsAccessor:
 
         dtype = LadybugDType(TYPESDICT[output_type](), output_unit)
 
-        return pd.Series(LadybugArrayType(values, dtype))
+        return pd.Series(
+            data=LadybugArrayType(values, dtype),
+            index=self._obj.index,
+            )
 
 
     def saturated_vapor_pressure(self, t_kelvin: Union[str, float, int, LadybugArrayType]) -> pd.Series:
