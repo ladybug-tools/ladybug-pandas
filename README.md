@@ -29,6 +29,9 @@ df_ip = df.ladybug.to_ip()
 
 ## [API Documentation](http://ladybug-tools.github.io/ladybug-pandas/docs)
 
+You can also find some usage examples in the [examples](https://github.com/ladybug-tools/ladybug-pandas/blob/master/examples) folder of the code repository.
+
+
 ## Local Development
 1. Clone this repo locally
 ```console
