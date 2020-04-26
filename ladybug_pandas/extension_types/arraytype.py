@@ -717,6 +717,7 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         return self.__class__(
             values=self.data.copy(),
             dtype=self.dtype,
+            copy=True,
         )
 
 
