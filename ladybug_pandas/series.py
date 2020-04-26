@@ -11,9 +11,9 @@ def series_from_collection(data_collection) -> pd.Series:
         pd.Series -- A pandas Series of type Ladybug Array
     """
 
-    array = LadybugArrayType._from_data_collection(collection)
+    array = LadybugArrayType._from_data_collection(data_collection)
 
     return pd.Series(
         data=array,
-        index=collection.datetimes
+        index=data_collection.datetimes
     )
