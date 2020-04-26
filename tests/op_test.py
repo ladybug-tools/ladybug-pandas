@@ -15,7 +15,11 @@ from ladybug_pandas import dataframe_from_collections, dataframe_from_epw
 def epw():
     epw_path = 'tests/assets/epw/tokyo.epw'
 
-    return EPW(epw_path)
+    epw = EPW(epw_path)
+
+    epw._import_data()
+
+    return epw
 
 @pytest.fixture()
 def temp_series(epw):
