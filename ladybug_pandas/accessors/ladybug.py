@@ -17,15 +17,15 @@ class LadybugSeriesAccessor:
 
     def to_si(self):
         self.check_type()
-        return self._obj.values.to_si()
+        return pd.Series(self._obj.values.to_si())
 
     def to_ip(self):
         self.check_type()
-        return self._obj.values.to_ip()
+        return pd.Series(self._obj.values.to_ip())
 
     def to_unit(self, unit):
         self.check_type()
-        return self._obj.values.to_unit(unit)
+        return pd.Series(self._obj.values.to_unit(unit))
 
 
 @pd.api.extensions.register_dataframe_accessor("ladybug")
