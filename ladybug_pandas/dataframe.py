@@ -13,7 +13,7 @@ def dataframe_from_collections(
     
     data_collection_type = None
 
-    df = pd.DataFrame()
+    df_list = []
 
     for collection in data_collections:
         # Check they are data collections
@@ -40,12 +40,12 @@ def dataframe_from_collections(
 
         data[col_name] = array
 
-        temp_df = pd.DataFrame(
+        df_list.append(pd.DataFrame(
             data=data,
             index=collection.datetimes
-        )
+        ))
 
-        df = pd.concat([df, temp_df], axis=1)
+        df = pd.concat(df_list, axis=1)
 
     return df
 

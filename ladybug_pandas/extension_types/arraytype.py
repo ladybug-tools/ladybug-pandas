@@ -339,8 +339,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         """
         if isinstance(item, int):
             datum = self.data[item]
-            # print(f"GETTING ITEM from {self.dtype.name}")
-            # print(type(datum))
             return self.data[item]
         elif isinstance(item, slice):
             pass
