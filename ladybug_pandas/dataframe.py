@@ -80,7 +80,7 @@ def dataframe_from_collections(
             index=collection.datetimes
         ))
 
-        df = pd.concat(df_list, axis=1)
+    df = pd.concat(df_list, axis=1)
 
     return df
 
