@@ -13,8 +13,8 @@ class Series:
 
             location = Location(
                 city='Taumatawhakatangi­hangakoauauotamatea­turipukakapikimaunga­horonukupokaiwhen­uakitanatahu',
-                state='Wales',
-                country='United Kingdom',
+                state='Porangahau',
+                country='New Zealand',
                 latitude=-40.3500,
                 longitude=176.5500,
                 time_zone=12
