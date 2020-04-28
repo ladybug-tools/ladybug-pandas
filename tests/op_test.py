@@ -9,7 +9,7 @@ from ladybug.epw import EPW
 from ladybug_pandas.extension_types.dtype import LadybugDType
 from ladybug_pandas.extension_types.arraytype import LadybugArrayType
 
-from ladybug_pandas import dataframe_from_collections, dataframe_from_epw, series_from_collection
+from ladybug_pandas import DataFrame, Series
 
 @pytest.fixture(scope='session')
 def epw():
@@ -23,11 +23,11 @@ def epw():
 
 @pytest.fixture()
 def temp_series(epw):
-    return series_from_collection(epw.dry_bulb_temperature)
+    return Series(epw.dry_bulb_temperature)
 
 @pytest.fixture()
 def dnr_series(epw):
-    return series_from_collection(epw.direct_normal_radiation)
+    return Series(epw.direct_normal_radiation)
 
 
 def test_addition(temp_series, dnr_series):
@@ -47,13 +47,13 @@ def test_conversion(temp_series):
 
 def test_from_collections(epw):
 
-    df = dataframe_from_collections([epw.dry_bulb_temperature, epw.direct_normal_radiation])
+    df = DataFrame([epw.dry_bulb_temperature, epw.direct_normal_radiation])
 
     # should not raise
 
 def test_from_epw(epw):
 
-    df = dataframe_from_epw(epw)
+    df = DataFrame.from_epw(epw)
 
     # should not raise
 
