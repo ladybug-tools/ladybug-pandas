@@ -1,6 +1,6 @@
 coverage==5.1
 coveralls==2.0.0
-pytest==5.2.0
+pytest==5.4.1
 pytest-cov==2.8.1
 Sphinx==3.0.3
 sphinx-bootstrap-theme==0.7.1
