@@ -158,7 +158,6 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
 
 class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
 
-    # _dtype = LadybugDtype()
     _dtype = LadybugDType()
 
     def __init__(self, values, dtype=None, copy=False):
@@ -395,6 +394,11 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         view.data = view.data[item]
 
         return view
+
+    def __arrow_array__(self, type=None):
+        # convert the underlying array values to a pyarrow Array
+        import pyarrow as pa
+        return pa.array(self.data, type=pa.float64())
 
 
     def __len__(self) -> int:

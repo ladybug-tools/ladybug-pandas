@@ -20,6 +20,9 @@ setuptools.setup(
     url="https://github.com/ladybug-tools/ladybug-pandas",
     packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=requirements,
+    extras_require={
+        'arrow': ['pyarrow']
+    },
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: Implementation :: CPython",
