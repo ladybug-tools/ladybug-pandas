@@ -50,6 +50,8 @@ class DataFrame:
         cls,
         data_collections: List[Union[HourlyDiscontinuousCollection, HourlyContinuousCollection, DailyCollection, MonthlyCollection, MonthlyPerHourCollection]],
         name_key: str = None,
+        populate_metadata: bool = False,
+        axis: int = 1,
     ) -> pd.DataFrame:
         
         data_collection_type = None
@@ -81,12 +83,16 @@ class DataFrame:
 
             data[col_name] = array
 
+            if populate_metadata:
+                for k, v in collection.header.metadata.items():
+                    data[k] = [v] * array.__len__()
+
             df_list.append(pd.DataFrame(
                 data=data,
                 index=collection.datetimes
             ))
 
-        df = pd.concat(df_list, axis=1)
+        df = pd.concat(df_list, axis=axis)
 
         return df
 
