@@ -49,12 +49,6 @@ def data(dbt_data_collection, dtype):
 
 
 @pytest.fixture
-def data_for_twos():
-    """Length-100 array in which all the elements are two."""
-    raise NotImplementedError
-
-
-@pytest.fixture
 def data_missing(dtype):
     """Length-2 array with [NA, Valid]"""
     return LadybugArrayType([np.nan, 3.4], dtype=dtype)
@@ -98,6 +92,10 @@ def data_for_sorting(dtype):
     A < B < C
     """
     return LadybugArrayType([5, 10, 2], dtype=dtype)
+
+@pytest.fixture
+def sort_by_key():
+    return None
 
 
 @pytest.fixture

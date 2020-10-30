@@ -2,7 +2,7 @@ import operator
 from copy import deepcopy
 
 from pandas.api.extensions import ExtensionArray, ExtensionDtype, ExtensionScalarOpsMixin
-from pandas.core.arrays.base import try_cast_to_ea
+from pandas.core.dtypes.cast import maybe_cast_to_extension_array
 from pandas.core import ops
 from pandas.compat import set_function_name
 from pandas.core.dtypes.generic import ABCExtensionArray, ABCIndexClass, ABCSeries
@@ -53,8 +53,9 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
        with NumPy arrays.
     """
 
+
     @classmethod
-    def _create_method(cls, op, coerce_to_dtype=True):
+    def _create_method(cls, op, coerce_to_dtype=True, result_dtype=None):
         """
         A class method that returns a method that will correspond to an
         operator for an ExtensionArray subclass, by dispatching to the
@@ -86,7 +87,7 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
         --------
         Given an ExtensionArray subclass called MyExtensionArray, use
 
-        >>> __add__ = cls._create_method(operator.add)
+            __add__ = cls._create_method(operator.add)
 
         in the class definition of MyExtensionArray to create the operator
         for addition, that will be based on the operator implementation
@@ -105,26 +106,8 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
                 # rely on pandas to unbox and dispatch to us
                 return NotImplemented
 
-            if isinstance(other, LadybugArrayType):
-                if self.dtype == other.dtype:
-                    lvalues = self
-                    rvalues = other
-                else:
-
-                    lvalues = self.data
-                    rvalues = other.data
-
-                    # Special case for comparison operations
-                    # Values cannot be compared if they are
-                    # of a different LadybugDType
-                    if op.__name__ in COMPARISON_OPS:
-                        res = [False]* len(lvalues)
-                        return res
-
-            else:
-                lvalues = self.data
-                rvalues = convert_values(other)
-
+            lvalues = self
+            rvalues = convert_values(other)
 
             # If the operator is not defined for the underlying objects,
             # a TypeError should be raised
@@ -135,15 +118,12 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
                     # https://github.com/pandas-dev/pandas/issues/22850
                     # We catch all regular exceptions here, and fall back
                     # to an ndarray.
-                    if isinstance(rvalues, ExtensionArray) and rvalues.dtype != self.dtype:
-                        res = np.asarray(arr)
-                    else:
-                        res = try_cast_to_ea(self, arr)
+                    res = maybe_cast_to_extension_array(type(self), arr)
                     if not isinstance(res, type(self)):
                         # exception raised in _from_sequence; ensure we have ndarray
                         res = np.asarray(arr)
                 else:
-                    res = np.asarray(arr)
+                    res = np.asarray(arr, dtype=result_dtype)
                 return res
 
             if op.__name__ in {"divmod", "rdivmod"}:
@@ -152,7 +132,7 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
 
             return _maybe_convert(res)
 
-        op_name = ops._get_op_name(op, True)
+        op_name = f"__{op.__name__}__"
         return set_function_name(_binop, op_name, cls)
 
 
