@@ -1,16 +1,12 @@
 import operator
 
-import pytest
-
-from pandas.core import ops
-
-from pandas import Series
 import numpy as np
-
+import pytest
 from ladybug.epw import EPW
-
-from ladybug_pandas.extension_types.dtype import LadybugDType
 from ladybug_pandas.extension_types.arraytype import LadybugArrayType
+from ladybug_pandas.extension_types.dtype import LadybugDType
+from pandas import Series
+from pandas.core import ops
 
 
 @pytest.fixture(scope='session')
@@ -93,6 +89,7 @@ def data_for_sorting(dtype):
     """
     return LadybugArrayType([5, 10, 2], dtype=dtype)
 
+
 @pytest.fixture
 def sort_by_key():
     return None
@@ -112,6 +109,7 @@ def data_missing_for_sorting(dtype):
 def data_for_twos(dtype):
     """Length-100 array in which all the elements are two."""
     return LadybugArrayType([2]*100, dtype=dtype)
+
 
 @pytest.fixture
 def na_cmp():
@@ -340,4 +338,3 @@ def all_logical_operators(request):
     * ^
     """
     return request.param
-

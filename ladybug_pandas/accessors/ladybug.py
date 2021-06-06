@@ -1,5 +1,7 @@
 import pandas as pd
+
 from ..extension_types.arraytype import LadybugArrayType
+
 
 @pd.api.extensions.register_series_accessor("ladybug")
 class LadybugSeriesAccessor:

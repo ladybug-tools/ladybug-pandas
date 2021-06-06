@@ -1,5 +1,7 @@
 import pandas as pd
+
 from .extension_types.arraytype import LadybugArrayType
+
 
 class Series:
     """Generate a pandas Series from a Ladybug Data Collection
@@ -39,4 +41,3 @@ class Series:
             data=array,
             index=data_collection.datetimes
         )
-

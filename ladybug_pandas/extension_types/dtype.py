@@ -1,14 +1,11 @@
 import re
 import types
-from typing import Sequence, Any
-from pandas.api.extensions import ExtensionArray, ExtensionDtype,register_extension_dtype
-from pandas._typing import ArrayLike
-import pandas as pd
-import numpy as np
 
+import numpy as np
+from ladybug.datatype import TYPESDICT
 from ladybug.datatype.base import DataTypeBase
 from ladybug.header import Header
-from ladybug.datatype import TYPESDICT, UNITS
+from pandas.api.extensions import ExtensionDtype, register_extension_dtype
 
 
 def _to_unit_base_hack(self, base_unit, values, unit, from_unit):
@@ -26,10 +23,13 @@ def _to_unit_base_hack(self, base_unit, values, unit, from_unit):
         values = eval(statement, namespace)
     return values
 
+
 def _is_numeric_hack(*args, **kwargs):
     return True
 
+
 funcType = types.MethodType
+
 
 @register_extension_dtype
 class LadybugDType(ExtensionDtype):
@@ -42,8 +42,10 @@ class LadybugDType(ExtensionDtype):
             self.data_type = DataTypeBase('Undefined Type')
             self.unit = 'None'
         else:
-            assert isinstance(data_type, DataTypeBase), ValueError(f'{data_type} is not an instance of type DataTypeBase')
-            assert unit in data_type._units, ValueError(f'unit {unit} should be one of {data_type.units}')
+            assert isinstance(data_type, DataTypeBase), ValueError(
+                f'{data_type} is not an instance of type DataTypeBase')
+            assert unit in data_type._units, ValueError(
+                f'unit {unit} should be one of {data_type.units}')
 
             # Replace to unit base function to work with numpy arrays
 
@@ -52,13 +54,15 @@ class LadybugDType(ExtensionDtype):
 
         # setattr(self.data_type, '_is_numeric', _is_numeric_hack)
         # self.data_type._to_unit_base = _to_unit_base_hack.__get__()
-        self.data_type._to_unit_base = funcType(_to_unit_base_hack, self.data_type)
+        self.data_type._to_unit_base = funcType(
+            _to_unit_base_hack, self.data_type)
 
     @classmethod
     def construct_from_string(cls, string):
         if not isinstance(string, str):
             raise TypeError(
-                "'construct_from_string' expects a string, got {}".format(type(string))
+                "'construct_from_string' expects a string, got {}".format(
+                    type(string))
             )
 
         match = re.fullmatch(r"(.*) \((.*)\)", string)
@@ -71,10 +75,12 @@ class LadybugDType(ExtensionDtype):
         type_name = ''.join(match[1].split(' '))
         unit = match[2]
 
-        assert type_name in TYPESDICT, ValueError(f'Ladybug Type of {type_name} is not recognized')
+        assert type_name in TYPESDICT, ValueError(
+            f'Ladybug Type of {type_name} is not recognized')
         data_type = TYPESDICT[type_name]()
 
-        assert unit in data_type._units, ValueError(f'Ladybug Type unit of {unit} is not recognized for type {type_name}')
+        assert unit in data_type._units, ValueError(
+            f'Ladybug Type unit of {unit} is not recognized for type {type_name}')
 
         return cls(data_type=data_type, unit=unit)
 

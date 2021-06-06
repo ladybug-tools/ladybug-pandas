@@ -1,10 +1,12 @@
 from typing import Union
+
 import pandas as pd
+
 from ladybug import psychrometrics
 from ladybug.datatype import TYPESDICT
 
-from ..extension_types.dtype import LadybugDType
 from ..extension_types.arraytype import LadybugArrayType
+from ..extension_types.dtype import LadybugDType
 
 
 @pd.api.extensions.register_dataframe_accessor("psychro")
@@ -42,7 +44,6 @@ class PsychrometricsAccessor:
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
-
     def _build_psychro_function(self, function, input_kwargs, output_type, output_unit, **kwargs):
 
         input_df = pd.DataFrame()
@@ -62,11 +63,10 @@ class PsychrometricsAccessor:
             elif isinstance(input_value, float) or isinstance(input_value, int):
                 function_inputs[k] = input_value
 
-
         values = []
 
         if len(input_df) == 0:
-            values.append(function(**function_inputs)) 
+            values.append(function(**function_inputs))
         else:
             for _, row in input_df.iterrows():
                 function_inputs.update(row.to_dict())
@@ -77,8 +77,7 @@ class PsychrometricsAccessor:
         return pd.Series(
             data=LadybugArrayType(values, dtype),
             index=self._obj.index,
-            )
-
+        )
 
     def saturated_vapor_pressure(self, t_kelvin: Union[str, float, int, LadybugArrayType]) -> pd.Series:
 
@@ -94,7 +93,6 @@ class PsychrometricsAccessor:
             output_unit='Pa',
             t_kelvin=t_kelvin
         )
-
 
     def humid_ratio_from_db_rh(self, db_temp, rel_humid, b_press=101325):
         """Humidity ratio (kg water/kg air) from air temperature (C) and relative humidity (%).
@@ -137,7 +135,6 @@ class PsychrometricsAccessor:
             rel_humid=rel_humid,
             b_press=b_press,
         )
-
 
     def enthalpy_from_db_hr(self, db_temp, humid_ratio, reference_temp=0):
         """Enthalpy (kJ/kg) at a given humidity ratio (water/air) and dry bulb temperature (C).
@@ -227,7 +224,6 @@ class PsychrometricsAccessor:
             rel_humid=rel_humid,
         )
 
-
     def wet_bulb_from_db_rh(self, db_temp, rel_humid, b_press=101325):
         """Wet bulb temperature (C) from air temperature (C) and relative humidity (%).
 
@@ -304,7 +300,6 @@ class PsychrometricsAccessor:
             b_press=b_press,
         )
 
-
     def rel_humid_from_db_enth(self, db_temp, enthalpy, b_press=101325, reference_temp=0):
         """Relative Humidity (%) from air temperature (C) and enthalpy (kJ/kg).
 
@@ -348,7 +343,6 @@ class PsychrometricsAccessor:
             reference_temp=reference_temp,
         )
 
-
     def rel_humid_from_db_dpt(self, db_temp, dew_pt):
         """Relative humidity (%) from dry bulb temperature (C), and dew point temperature (C).
 
@@ -376,7 +370,6 @@ class PsychrometricsAccessor:
             db_temp=db_temp,
             dew_pt=dew_pt,
         )
-
 
     def rel_humid_from_db_wb(self, db_temp, wet_bulb, b_press=101325):
         """Relative humidity (%) from dry bulb temperature (C), and wet bulb temperature (C).
@@ -411,7 +404,6 @@ class PsychrometricsAccessor:
             wet_bulb=wet_bulb,
             b_press=b_press,
         )
-
 
     def dew_point_from_db_hr(self, db_temp, humid_ratio, b_press=101325):
         """Dew Point Temperature (C) from air temperature (C) and humidity ratio (water/air).
@@ -490,7 +482,6 @@ class PsychrometricsAccessor:
             reference_temp=reference_temp,
         )
 
-
     def dew_point_from_db_wb(self, db_temp, wet_bulb, b_press=101325):
         """Dew point temperature (C) from dry bulb (C) and wet bulb temperature (C).
 
@@ -524,7 +515,6 @@ class PsychrometricsAccessor:
             wet_bulb=wet_bulb,
             b_press=b_press,
         )
-
 
     def humid_ratio_from_db_wb(self, db_temp, wb_temp, b_press=101325):
         """Humidity ratio from air temperature (C) and wet bulb temperature (C).
@@ -562,7 +552,6 @@ class PsychrometricsAccessor:
             wb_temp=wb_temp,
             b_press=b_press,
         )
-
 
     def db_temp_from_enth_hr(self, enthalpy, humid_ratio, reference_temp=0):
         """Dry bulb temperature (C) from enthalpy (kJ/kg) and humidity ratio (water/air).
@@ -604,7 +593,6 @@ class PsychrometricsAccessor:
             reference_temp=reference_temp,
         )
 
-
     def dew_point_from_db_rh_fast(self, db_temp, rel_humid):
         """Dew point temperature (C) from air temperature (C) and relative humidity (%).
 
@@ -642,7 +630,6 @@ class PsychrometricsAccessor:
             db_temp=db_temp,
             rel_humid=rel_humid,
         )
-
 
     def wet_bulb_from_db_rh_fast(self, db_temp, rel_humid, b_press=101325):
         """Wet bulb temperature (C) from air temperature (C) and relative humidity (%).

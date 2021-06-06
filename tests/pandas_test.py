@@ -1,27 +1,32 @@
-import pytest
-from pandas.tests.extension import base
+import numpy as np
 import pandas as pd
 from pandas.core import ops
+from pandas.tests.extension import base
 
 
 class TestCasting(base.BaseCastingTests):
     pass
 
+
 class TestDtypes(base.BaseDtypeTests):
-    
+
     def test_array_type(self, data, dtype):
         """Replace with isinstance test because of inheritance"""
         assert isinstance(data, dtype.construct_array_type())
         # assert dtype.construct_array_type() is type(data)
 
+
 class TestConstructors(base.BaseConstructorsTests):
     pass
+
 
 class TestGetItem(base.BaseGetitemTests):
     pass
 
+
 class TestBaseGroupby(base.BaseGroupbyTests):
     pass
+
 
 class TestBaseInterface(base.BaseInterfaceTests):
 
@@ -59,11 +64,14 @@ class TestBaseInterface(base.BaseInterfaceTests):
 class TestBaseParsing(base.BaseParsingTests):
     pass
 
+
 class TestBaseMethods(base.BaseMethodsTests):
     pass
 
+
 class TestBaseMissing(base.BaseMissingTests):
     pass
+
 
 class TestBaseArithmeticOps(base.BaseArithmeticOpsTests):
 
@@ -110,11 +118,14 @@ class TestBaseArithmeticOps(base.BaseArithmeticOpsTests):
 class TestBasePrinting(base.BasePrintingTests):
     pass
 
+
 class TestBaseBooleanReduce(base.BaseBooleanReduceTests):
     pass
 
+
 class TestBaseNumericReduce(base.BaseNumericReduceTests):
     pass
+
 
 class TestBaseReshaping(base.BaseReshapingTests):
 
@@ -124,22 +135,22 @@ class TestBaseReshaping(base.BaseReshapingTests):
         df2 = pd.DataFrame({"A": [1, 2, 3]})
         df3 = pd.DataFrame({"A": ["a", "b", "c"]}).astype("category")
         dfs = [df1, df2, df3]
-    
+
         # dataframes
         result = pd.concat(dfs)
         expected = pd.concat([x.astype(object) for x in dfs])
         self.assert_frame_equal(result, expected)
-    
+
         # series
         result = pd.concat([x["A"] for x in dfs])
         expected = pd.concat([x["A"].astype(object) for x in dfs])
         self.assert_series_equal(result, expected)
-    
+
         # simple test for just EA and one other
         result = pd.concat([df1, df2])
         expected = pd.concat([df1.astype("object"), df2.astype("object")])
         self.assert_frame_equal(result, expected)
-    
+
         # Commented out the section below because it was failing
         # I think it fails because the ndarray type of the ladybug tools
         # array type is a float which concats into a float rather than an object
@@ -151,6 +162,6 @@ class TestBaseReshaping(base.BaseReshapingTests):
 
     pass
 
+
 class TestBaseSetitem(base.BaseSetitemTests):
     pass
-

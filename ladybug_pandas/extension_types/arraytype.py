@@ -1,31 +1,29 @@
 import operator
 from copy import deepcopy
+from typing import Any, List, Sequence, Union
 
-from pandas.api.extensions import ExtensionArray, ExtensionDtype, ExtensionScalarOpsMixin
-from pandas.core.dtypes.cast import maybe_cast_to_extension_array
-from pandas.core import ops
-from pandas.compat import set_function_name
-from pandas.core.dtypes.generic import ABCExtensionArray, ABCIndexClass, ABCSeries
-from pandas.core.dtypes.common import is_array_like, is_list_like
-
-from typing import Sequence, Any, Union, List
-from pandas.core.dtypes.generic import ABCExtensionArray
-
-from pandas._typing import ArrayLike
 import numpy as np
 import pandas as pd
-
-from scipy import stats
-
-from pandas.core.arrays.numpy_ import PandasArray
-
-from ladybug.datacollection import BaseCollection, HourlyDiscontinuousCollection
+from ladybug.datacollection import (BaseCollection,
+                                    HourlyDiscontinuousCollection)
 from ladybug.dt import DateTime
+from pandas._typing import ArrayLike
+from pandas.api.extensions import (ExtensionArray, ExtensionDtype,
+                                   ExtensionScalarOpsMixin)
+from pandas.compat import set_function_name
+from pandas.core import ops
+from pandas.core.arrays.numpy_ import PandasArray
+from pandas.core.dtypes.cast import maybe_cast_to_extension_array
+from pandas.core.dtypes.common import is_array_like, is_list_like
+from pandas.core.dtypes.generic import (ABCExtensionArray, ABCIndexClass,
+                                        ABCSeries)
+from pandas.core.dtypes.inference import is_named_tuple
+from scipy import stats
 
 from .dtype import LadybugDType
 
-
 COMPARISON_OPS = ['eq', 'ne', 'lt', 'gt', 'le', 'ge']
+
 
 class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
     """
@@ -52,7 +50,6 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
        implementation to be called when involved in binary operations
        with NumPy arrays.
     """
-
 
     @classmethod
     def _create_method(cls, op, coerce_to_dtype=True, result_dtype=None):
@@ -166,7 +163,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
             #     self._dtype = copy.deepcopy(self._dtype)
 
         self.data = values
-        
 
     @classmethod
     def _from_sequence(cls, scalars: Sequence, dtype=None, copy=False):
@@ -195,7 +191,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
                 dtype = None
 
         return cls(scalars, dtype=dtype, copy=copy)
-
 
     @classmethod
     def _from_sequence_of_strings(cls, strings, dtype=None, copy=False):
@@ -243,7 +238,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
             raise f'Original value of type {type(original)} not supported'
 
         return cls(values, dtype)
-        
 
     @classmethod
     def _from_data_collection(cls, datacollection: BaseCollection):
@@ -255,20 +249,18 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         Returns:
             LadybugArrayType -- A Ladybug Array
         """
-        dtype =  LadybugDType.construct_from_header(datacollection.header)
+        dtype = LadybugDType.construct_from_header(datacollection.header)
 
         return cls(values=datacollection.values, dtype=dtype)
 
-    
     # def to_hourly_discontinuous_collection(self, datetimes: List[DateTime]) -> HourlyDiscontinuousCollection:
     #     assert len(self.data) == len(datetimes), f'Datetime index of length {len(datetimes)} does not match length of array {len(self)}'
 
     #     return HourlyDiscontinuousCollection(
     #         header=self.dtype.to_header(),
     #         values=self.data.tolist(),
-    #         datetimes=datetimes,    
+    #         datetimes=datetimes,
     #     )
-
 
     def convert_to_unit(self, unit: str):
         """Convert the Data Collection to the input unit
@@ -283,16 +275,16 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
     def convert_to_ip(self):
         """Convert the Data Collection to IP units."""
         self.data, self.dtype.unit = self.dtype.data_type.to_ip(
-                self.data, self.dtype.unit)
+            self.data, self.dtype.unit)
 
     def convert_to_si(self):
         """Convert the Data Collection to SI units."""
         self.data, self.dtype.unit = self.dtype.data_type.to_si(
-                self.data, self.dtype.unit)
+            self.data, self.dtype.unit)
 
     def to_unit(self, unit):
         """Return a Data Collection in the input unit
-        
+
         Arguments:
             unit {str} -- A unit string that exists for the data type
 
@@ -315,14 +307,13 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
 
     def to_si(self):
         """Return a Data Collection in SI units
-        
+
         Returns:
             LadybugArrayType -- A Ladybug Array converted to the desired unit
         """
         new_data_c = self.copy()
         new_data_c.convert_to_si()
         return new_data_c
-
 
     def __getitem__(self, item):
         # type (Any) -> Any
@@ -357,16 +348,18 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         elif isinstance(item, list):
             try:
                 item = np.asarray(item, dtype=np.int_)
-            except Exception as e:        
-                raise ValueError("Cannot index with an integer indexer containing NA values")
+            except Exception as e:
+                raise ValueError(
+                    "Cannot index with an integer indexer containing NA values")
 
         elif isinstance(item, pd.core.arrays.boolean.BooleanArray):
-            item = item.to_numpy(dtype="bool", na_value=False) 
+            item = item.to_numpy(dtype="bool", na_value=False)
         elif isinstance(item, pd.core.arrays.integer.IntegerArray):
             try:
                 item = item.to_numpy(dtype="int", na_value=pd.NA)
             except Exception as e:
-                raise ValueError("Cannot index with an integer indexer containing NA values")
+                raise ValueError(
+                    "Cannot index with an integer indexer containing NA values")
         else:
             raise IndexError(f'Item type note recognised {type(item)}')
 
@@ -380,7 +373,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         import pyarrow as pa
         return pa.array(self.data, type=pa.float64())
 
-
     def __len__(self) -> int:
         """
         Length of this array
@@ -390,28 +382,27 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         """
         return self.data.size
 
-
     def __setitem__(self, key: Union[int, np.ndarray], value: Any) -> None:
         """
         Set one or more values inplace.
-    
+
         This method is not required to satisfy the pandas extension array
         interface.
-    
+
         Parameters
         ----------
         key : int, ndarray, or slice
             When called from, e.g. ``Series.__setitem__``, ``key`` will be
             one of
-    
+
             * scalar int
             * ndarray of integers.
             * boolean ndarray
             * slice object
-    
+
         value : ExtensionDtype.type, Sequence[ExtensionDtype.type], or object
             value or values to be set of ``key``.
-    
+
         Returns
         -------
         None
@@ -435,7 +426,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         # Note, also, that Series/DataFrame.where internally use __setitem__
         # on a copy of the data.
 
-
         if isinstance(key, pd.core.arrays.BooleanArray):
             key = key.fillna(False)
             key = key.to_numpy(dtype="bool")
@@ -444,7 +434,8 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
                 key = key.to_numpy(dtype="int")
             except ValueError as error:
                 if 'Specify an appropriate \'na_value\'' in str(error):
-                    raise ValueError('Cannot index with an integer indexer containing NA values')
+                    raise ValueError(
+                        'Cannot index with an integer indexer containing NA values')
                 raise error
 
         elif isinstance(key, list):
@@ -461,13 +452,15 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
                 else:
                     list_item += 1
 
-            assert list_type is not None, IndexError('arrays used as indices must be of integer (or boolean) type')
+            assert list_type is not None, IndexError(
+                'arrays used as indices must be of integer (or boolean) type')
 
             try:
                 key = np.asarray(key, dtype=list_type)
             except TypeError as error:
                 if 'int() argument must be a string, a bytes-like object or a number, not \'NAType\'' in str(error):
-                    raise ValueError('Cannot index with an integer indexer containing NA values')
+                    raise ValueError(
+                        'Cannot index with an integer indexer containing NA values')
 
                 raise error
 
@@ -482,9 +475,8 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
             else:
                 raise error
 
-    
     # def __add__(self, other):
-        
+
     #     if isinstance(other, self.__class__):
     #         self.data += other.data
 
@@ -504,7 +496,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         # else:
         #     return self._dtype
 
-
     @property
     def nbytes(self) -> int:
         """
@@ -514,7 +505,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         # on the number of bytes needed.
         # return self._itemsize * self.__len__
         return self.data.nbytes
-
 
     @property
     def _ndarray(self):
@@ -541,7 +531,7 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         ------
         TypeError : subclass does not define reductions
         """
-        
+
         root = np
 
         child_kwargs = {}
@@ -565,7 +555,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
             # return getattr(self.data, name)(**child_kwargs)
             return getattr(root, name)(self.data, **child_kwargs)
 
-
     def isna(self) -> ArrayLike:
         """
         A 1-D array indicating if each value is missing.
@@ -585,7 +574,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         """
         return np.isnan(self.data)
 
-
     def value_counts(self, dropna=False):
         """
         Return a Series containing counts of unique values.
@@ -599,7 +587,7 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         -------
         Series
         """
-        from pandas import Series, Index
+        from pandas import Index, Series
 
         if dropna:
             values = self[~self.isna()].data
@@ -609,7 +597,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         unique, counts = np.unique(values, return_counts=True)
 
         return Series(counts, index=unique, dtype="int64")
-
 
     def take(
         self, indices: Sequence[int], allow_fill: bool = False, fill_value: Any = None
@@ -685,10 +672,10 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         # the user-facing type to the storage type, before using
         # pandas.api.extensions.take
         copy = self.copy()
-        copy.data = pd.api.extensions.take(copy.data, indices, allow_fill=allow_fill, fill_value=fill_value)
-        
-        return copy
+        copy.data = pd.api.extensions.take(
+            copy.data, indices, allow_fill=allow_fill, fill_value=fill_value)
 
+        return copy
 
     def copy(self) -> "ExtensionArray":
         """
@@ -703,7 +690,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
             dtype=self.dtype,
             copy=True,
         )
-
 
     def view(self, dtype=None) -> Union[ABCExtensionArray, np.ndarray]:
         """
@@ -728,8 +714,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
 
         return self.__class__._from_factorized(self.data, self)
 
-
-
     @classmethod
     def _concat_same_type(
         cls, to_concat: Sequence["ExtensionArray"]
@@ -745,7 +729,6 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         """
         data = np.concatenate([ga.data for ga in to_concat])
         return cls._from_factorized(data, to_concat)
-
 
     def astype(self, dtype, copy=True):
         if isinstance(dtype, self.dtype.__class__):
