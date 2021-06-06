@@ -21,7 +21,7 @@ epw_path = 'tests/assets/epw/tokyo.epw'
 
 epw = EPW(epw_path)
 
-df = lbp.dataframe_from_epw(epw)
+df = lbp.DataFrame.from_epw(epw)
 
 df_ip = df.ladybug.to_ip()
 
