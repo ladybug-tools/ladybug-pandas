@@ -1,9 +1,14 @@
 from typing import List, Union
-import pandas as pd
+
 import numpy as np
-from ladybug.datacollection import HourlyDiscontinuousCollection, HourlyContinuousCollection, \
-    DailyCollection, MonthlyCollection, MonthlyPerHourCollection, BaseCollection
+import pandas as pd
+from ladybug.datacollection import (BaseCollection, DailyCollection,
+                                    HourlyContinuousCollection,
+                                    HourlyDiscontinuousCollection,
+                                    MonthlyCollection,
+                                    MonthlyPerHourCollection)
 from ladybug.epw import EPW
+
 from .extension_types.arraytype import LadybugArrayType
 
 
@@ -53,7 +58,7 @@ class DataFrame:
         populate_metadata: bool = False,
         axis: int = 1,
     ) -> pd.DataFrame:
-        
+
         data_collection_type = None
 
         df_list = []
@@ -69,7 +74,6 @@ class DataFrame:
             else:
                 assert isinstance(collection, data_collection_type), \
                     f'All items of data_collections must be of the same type of data collection. Found {data_collection_type} and {type(collection)}'
-
 
             # Create columns from collections
             array = LadybugArrayType._from_data_collection(collection)
@@ -95,7 +99,6 @@ class DataFrame:
         df = pd.concat(df_list, axis=axis)
 
         return df
-
 
     @classmethod
     def from_epw(
