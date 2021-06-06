@@ -122,6 +122,9 @@ class DataFrame:
         Returns:
             pd.DataFrame -- A pandas dataframe. Each column will have a type of LadybugArrayType
         """
+        if not epw.is_data_loaded:
+            epw._import_data()
+
         df = cls(epw._data[6:])
 
         df = df.replace(999999999.0, np.nan)

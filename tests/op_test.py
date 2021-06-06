@@ -49,13 +49,16 @@ def test_from_collections(epw):
 
     df = DataFrame([epw.dry_bulb_temperature, epw.direct_normal_radiation])
 
+def test_from_epw_with_loaded_data(epw):
+    df = DataFrame.from_epw(epw)
     # should not raise
 
-def test_from_epw(epw):
 
+def test_from_epw_without_loaded_data(epw):
+    epw_path = 'tests/assets/epw/tokyo.epw'
+    epw = EPW(epw_path)
     df = DataFrame.from_epw(epw)
 
-    # should not raise
 
 def test_si_from_si(temp_series):
 
