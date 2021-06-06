@@ -102,7 +102,7 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
                     ovalues = [param] * len(self)
                 return ovalues
 
-            if isinstance(other, (ABCSeries, ABCIndexClass)):
+            if isinstance(other, (ABCSeries, ABCIndexClass, pd.DataFrame)):
                 # rely on pandas to unbox and dispatch to us
                 return NotImplemented
 
