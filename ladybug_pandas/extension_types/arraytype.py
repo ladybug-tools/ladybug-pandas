@@ -12,12 +12,9 @@ from pandas.api.extensions import (ExtensionArray, ExtensionDtype,
                                    ExtensionScalarOpsMixin)
 from pandas.compat import set_function_name
 from pandas.core import ops
-from pandas.core.arrays.numpy_ import PandasArray
 from pandas.core.dtypes.cast import maybe_cast_to_extension_array
-from pandas.core.dtypes.common import is_array_like, is_list_like
-from pandas.core.dtypes.generic import (ABCExtensionArray, ABCIndexClass,
-                                        ABCSeries)
-from pandas.core.dtypes.inference import is_named_tuple
+from pandas.core.dtypes.common import is_list_like
+from pandas.core.dtypes.generic import ABCExtensionArray, ABCSeries
 from scipy import stats
 
 from .dtype import LadybugDType
@@ -99,7 +96,7 @@ class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
                     ovalues = [param] * len(self)
                 return ovalues
 
-            if isinstance(other, (ABCSeries, ABCIndexClass, pd.DataFrame)):
+            if isinstance(other, (ABCSeries, pd.DataFrame)):
                 # rely on pandas to unbox and dispatch to us
                 return NotImplemented
 
