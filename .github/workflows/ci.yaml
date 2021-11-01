@@ -8,7 +8,7 @@ jobs:
     name: Unit tests
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -22,18 +22,13 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
       - name: run tests
-        run: python -m pytest --cov=ladybug_pandas tests/
-      - name: run test coverage
-        run: |
-          echo "Coveralls is no longer supported"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m pytest tests/
 
   deploy:
     name: Deploy to GitHub and PyPI
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/master' && github.repository_owner == 'pollination'
+    if: github.ref == 'refs/heads/master' && github.repository_owner == 'ladybug-tools'
     steps:
       - uses: actions/checkout@v2
       - name: set up Python
@@ -68,7 +63,7 @@ jobs:
     name: Generate docs
     runs-on: ubuntu-latest
     needs: deploy
-    if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'pollination' && contains(needs.deploy.outputs.tag, '.') }}
+    if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'ladybug-tools' && contains(needs.deploy.outputs.tag, '.') }}
     steps:
       - uses: actions/checkout@v2
       - name: set up Python
