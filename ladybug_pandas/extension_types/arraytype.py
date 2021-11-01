@@ -1,23 +1,13 @@
-import operator
 from copy import deepcopy
-from typing import Any, List, Sequence, Union
+from typing import Any, Sequence, Union
 
 import numpy as np
 import pandas as pd
-from ladybug.datacollection import (BaseCollection,
-                                    HourlyDiscontinuousCollection)
-from ladybug.dt import DateTime
+from ladybug.datacollection import BaseCollection
 from pandas._typing import ArrayLike
 from pandas.api.extensions import (ExtensionArray, ExtensionDtype,
                                    ExtensionScalarOpsMixin)
-from pandas.compat import set_function_name
-from pandas.core import ops
-from pandas.core.arrays.numpy_ import PandasArray
-from pandas.core.dtypes.cast import maybe_cast_to_extension_array
-from pandas.core.dtypes.common import is_array_like, is_list_like
-from pandas.core.dtypes.generic import (ABCExtensionArray, ABCIndexClass,
-                                        ABCSeries)
-from pandas.core.dtypes.inference import is_named_tuple
+from pandas.core.dtypes.generic import ABCExtensionArray
 from scipy import stats
 
 from .dtype import LadybugDType
@@ -25,115 +15,7 @@ from .dtype import LadybugDType
 COMPARISON_OPS = ['eq', 'ne', 'lt', 'gt', 'le', 'ge']
 
 
-class LadybugExtensionScalarOpsMixin(ExtensionScalarOpsMixin):
-    """
-    A mixin for defining  ops on an ExtensionArray.
-
-    It is assumed that the underlying scalar objects have the operators
-    already defined.
-
-    Notes
-    -----
-    If you have defined a subclass MyExtensionArray(ExtensionArray), then
-    use MyExtensionArray(ExtensionArray, ExtensionScalarOpsMixin) to
-    get the arithmetic operators.  After the definition of MyExtensionArray,
-    insert the lines
-
-    MyExtensionArray._add_arithmetic_ops()
-    MyExtensionArray._add_comparison_ops()
-
-    to link the operators to your class.
-
-    .. note::
-
-       You may want to set ``__array_priority__`` if you want your
-       implementation to be called when involved in binary operations
-       with NumPy arrays.
-    """
-
-    @classmethod
-    def _create_method(cls, op, coerce_to_dtype=True, result_dtype=None):
-        """
-        A class method that returns a method that will correspond to an
-        operator for an ExtensionArray subclass, by dispatching to the
-        relevant operator defined on the individual elements of the
-        ExtensionArray.
-
-        Parameters
-        ----------
-        op : function
-            An operator that takes arguments op(a, b)
-        coerce_to_dtype : bool, default True
-            boolean indicating whether to attempt to convert
-            the result to the underlying ExtensionArray dtype.
-            If it's not possible to create a new ExtensionArray with the
-            values, an ndarray is returned instead.
-
-        Returns
-        -------
-        Callable[[Any, Any], Union[ndarray, ExtensionArray]]
-            A method that can be bound to a class. When used, the method
-            receives the two arguments, one of which is the instance of
-            this class, and should return an ExtensionArray or an ndarray.
-
-            Returning an ndarray may be necessary when the result of the
-            `op` cannot be stored in the ExtensionArray. The dtype of the
-            ndarray uses NumPy's normal inference rules.
-
-        Examples
-        --------
-        Given an ExtensionArray subclass called MyExtensionArray, use
-
-            __add__ = cls._create_method(operator.add)
-
-        in the class definition of MyExtensionArray to create the operator
-        for addition, that will be based on the operator implementation
-        of the underlying elements of the ExtensionArray
-        """
-
-        def _binop(self, other):
-            def convert_values(param):
-                if isinstance(param, ExtensionArray) or is_list_like(param):
-                    ovalues = param
-                else:  # Assume its an object
-                    ovalues = [param] * len(self)
-                return ovalues
-
-            if isinstance(other, (ABCSeries, ABCIndexClass, pd.DataFrame)):
-                # rely on pandas to unbox and dispatch to us
-                return NotImplemented
-
-            lvalues = self
-            rvalues = convert_values(other)
-
-            # If the operator is not defined for the underlying objects,
-            # a TypeError should be raised
-            res = [op(a, b) for (a, b) in zip(lvalues, rvalues)]
-
-            def _maybe_convert(arr):
-                if coerce_to_dtype:
-                    # https://github.com/pandas-dev/pandas/issues/22850
-                    # We catch all regular exceptions here, and fall back
-                    # to an ndarray.
-                    res = maybe_cast_to_extension_array(type(self), arr)
-                    if not isinstance(res, type(self)):
-                        # exception raised in _from_sequence; ensure we have ndarray
-                        res = np.asarray(arr)
-                else:
-                    res = np.asarray(arr, dtype=result_dtype)
-                return res
-
-            if op.__name__ in {"divmod", "rdivmod"}:
-                a, b = zip(*res)
-                return _maybe_convert(a), _maybe_convert(b)
-
-            return _maybe_convert(res)
-
-        op_name = f"__{op.__name__}__"
-        return set_function_name(_binop, op_name, cls)
-
-
-class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
+class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
 
     _dtype = LadybugDType()
 
@@ -153,7 +35,8 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
             values = values.data
             self._dtype = values.dtype
         else:
-            values = np.asarray(values, dtype=dtype)
+            values = np.asarray(values)
+            self._dtype = values.dtype
 
         # TODO: dtype?
         if copy:
@@ -344,7 +227,9 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         elif isinstance(item, slice):
             pass
         elif isinstance(item, np.ndarray):
-            pass
+            if item.dtype == bool and len(item) != len(self):
+                raise IndexError(
+                    f'Boolean index has wrong length: {item.size} instead of {self.data.size}')
         elif isinstance(item, list):
             try:
                 item = np.asarray(item, dtype=np.int_)
@@ -353,6 +238,10 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
                     "Cannot index with an integer indexer containing NA values")
 
         elif isinstance(item, pd.core.arrays.boolean.BooleanArray):
+            if len(item) != len(self):
+                raise IndexError(
+                    f'Boolean index has wrong length: {len(item)} instead of {len(self)}')
+
             item = item.to_numpy(dtype="bool", na_value=False)
         elif isinstance(item, pd.core.arrays.integer.IntegerArray):
             try:
@@ -574,7 +463,7 @@ class LadybugArrayType(ExtensionArray, LadybugExtensionScalarOpsMixin):
         """
         return np.isnan(self.data)
 
-    def value_counts(self, dropna=False):
+    def value_counts(self, dropna=True):
         """
         Return a Series containing counts of unique values.
 
