@@ -13,4 +13,7 @@ tox.ini
 .eggs
 *.code-workspace
 
+build
+dist
+
 venv
