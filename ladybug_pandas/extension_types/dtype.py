@@ -115,7 +115,7 @@ class LadybugDType(ExtensionDtype):
 
     @property
     def type(self):
-        return np.float
+        return float
 
     @property
     def _is_numeric(self):
