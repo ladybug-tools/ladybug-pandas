@@ -115,7 +115,10 @@ class LadybugDType(ExtensionDtype):
 
     @property
     def type(self):
-        return float
+        try:
+            return np.float
+        except AttributeError:
+            return float
 
     @property
     def _is_numeric(self):
