@@ -1,0 +1,19 @@
+ladybug\_pandas.accessors package
+=================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ladybug_pandas.accessors.ladybug
+   ladybug_pandas.accessors.psychrometrics
+
+Module contents
+---------------
+
+.. automodule:: ladybug_pandas.accessors
+   :members:
+   :undoc-members:
+   :show-inheritance:

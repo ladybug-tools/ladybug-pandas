@@ -1,0 +1,7 @@
+ladybug\_pandas.series module
+=============================
+
+.. automodule:: ladybug_pandas.series
+   :members:
+   :undoc-members:
+   :show-inheritance:

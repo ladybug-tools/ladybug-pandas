@@ -1,0 +1,7 @@
+ladybug\_pandas.accessors.psychrometrics module
+===============================================
+
+.. automodule:: ladybug_pandas.accessors.psychrometrics
+   :members:
+   :undoc-members:
+   :show-inheritance:

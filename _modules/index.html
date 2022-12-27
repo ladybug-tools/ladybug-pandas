@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overview: module code &#8212; ladybug-pandas  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          ladybug-pandas</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../ladybug_pandas.html">ladybug_pandas package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ladybug_pandas.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ladybug_pandas.accessors.html">ladybug_pandas.accessors package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ladybug_pandas.accessors.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html">ladybug_pandas.accessors.ladybug module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor.to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor.to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor.to_si"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor.to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor.to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor.to_unit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.check_type"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.check_type()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.to_si"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.to_unit()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.is_lb_array"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.is_lb_array</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html">ladybug_pandas.accessors.psychrometrics module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.db_temp_from_enth_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.db_temp_from_enth_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_enth"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_enth()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_rh"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_rh()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_rh_fast"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_rh_fast()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_wb"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_wb()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.enthalpy_from_db_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.enthalpy_from_db_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.humid_ratio_from_db_rh"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.humid_ratio_from_db_rh()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.humid_ratio_from_db_wb"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.humid_ratio_from_db_wb()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_dpt"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_dpt()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_enth"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_enth()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_wb"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_wb()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.saturated_vapor_pressure"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.saturated_vapor_pressure()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.wet_bulb_from_db_rh"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.wet_bulb_from_db_rh()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.wet_bulb_from_db_rh_fast"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.wet_bulb_from_db_rh_fast()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../ladybug_pandas.accessors.html#module-ladybug_pandas.accessors">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../ladybug_pandas.extension_types.html">ladybug_pandas.extension_types package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ladybug_pandas.extension_types.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html">ladybug_pandas.extension_types.arraytype module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.argmax"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.argmax()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.argmin"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.argmin()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.argsort"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.argsort()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.astype"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.astype()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.convert_to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.convert_to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.convert_to_si"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.convert_to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.convert_to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.convert_to_unit()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.copy"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.copy()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.delete"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.delete()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.dropna"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.dropna()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.equals"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.equals()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.factorize"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.factorize()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.fillna"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.fillna()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.isin"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.isin()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.isna"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.isna()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.ravel"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.ravel()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.repeat"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.repeat()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.searchsorted"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.searchsorted()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.shift"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.shift()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.take"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.take()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_numpy"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_numpy()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_si"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_unit()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.transpose"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.transpose()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.unique"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.unique()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.value_counts"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.value_counts()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.view"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.view()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.T"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.T</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.dtype"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.dtype</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.nbytes"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.nbytes</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.ndim"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.ndim</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.shape"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.shape</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.size"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html">ladybug_pandas.extension_types.dtype module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType"><code class="docutils literal notranslate"><span class="pre">LadybugDType</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.construct_array_type"><code class="docutils literal notranslate"><span class="pre">LadybugDType.construct_array_type()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.construct_from_header"><code class="docutils literal notranslate"><span class="pre">LadybugDType.construct_from_header()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.construct_from_string"><code class="docutils literal notranslate"><span class="pre">LadybugDType.construct_from_string()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.is_dtype"><code class="docutils literal notranslate"><span class="pre">LadybugDType.is_dtype()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.to_header"><code class="docutils literal notranslate"><span class="pre">LadybugDType.to_header()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.data_type_name"><code class="docutils literal notranslate"><span class="pre">LadybugDType.data_type_name</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.kind"><code class="docutils literal notranslate"><span class="pre">LadybugDType.kind</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.na_value"><code class="docutils literal notranslate"><span class="pre">LadybugDType.na_value</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.name"><code class="docutils literal notranslate"><span class="pre">LadybugDType.name</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.names"><code class="docutils literal notranslate"><span class="pre">LadybugDType.names</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.type"><code class="docutils literal notranslate"><span class="pre">LadybugDType.type</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../ladybug_pandas.extension_types.html#module-ladybug_pandas.extension_types">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ladybug_pandas.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ladybug_pandas.dataframe.html">ladybug_pandas.dataframe module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ladybug_pandas.dataframe.html#ladybug_pandas.dataframe.DataFrame"><code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../ladybug_pandas.dataframe.html#ladybug_pandas.dataframe.DataFrame.from_epw"><code class="docutils literal notranslate"><span class="pre">DataFrame.from_epw()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../ladybug_pandas.series.html">ladybug_pandas.series module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ladybug_pandas.series.html#ladybug_pandas.series.Series"><code class="docutils literal notranslate"><span class="pre">Series</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ladybug_pandas.html#module-ladybug_pandas">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../ladybug_pandas.html">ladybug_pandas package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../ladybug_pandas.html">ladybug_pandas package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>All modules for which code is available</h1>
+<ul><li><a href="ladybug_pandas/accessors/ladybug.html">ladybug_pandas.accessors.ladybug</a></li>
+<li><a href="ladybug_pandas/accessors/psychrometrics.html">ladybug_pandas.accessors.psychrometrics</a></li>
+<li><a href="ladybug_pandas/dataframe.html">ladybug_pandas.dataframe</a></li>
+<li><a href="ladybug_pandas/extension_types/arraytype.html">ladybug_pandas.extension_types.arraytype</a></li>
+<li><a href="ladybug_pandas/extension_types/dtype.html">ladybug_pandas.extension_types.dtype</a></li>
+<li><a href="ladybug_pandas/series.html">ladybug_pandas.series</a></li>
+</ul>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

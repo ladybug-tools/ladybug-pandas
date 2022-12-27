@@ -1,0 +1,28 @@
+ladybug\_pandas package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ladybug_pandas.accessors
+   ladybug_pandas.extension_types
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ladybug_pandas.dataframe
+   ladybug_pandas.series
+
+Module contents
+---------------
+
+.. automodule:: ladybug_pandas
+   :members:
+   :undoc-members:
+   :show-inheritance:

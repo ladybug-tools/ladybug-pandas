@@ -1,0 +1,7 @@
+ladybug\_pandas.accessors.ladybug module
+========================================
+
+.. automodule:: ladybug_pandas.accessors.ladybug
+   :members:
+   :undoc-members:
+   :show-inheritance:

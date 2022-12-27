@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ladybug_pandas.accessors.psychrometrics &#8212; ladybug-pandas  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          ladybug-pandas</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ladybug_pandas.html">ladybug_pandas package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ladybug_pandas.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_pandas.accessors.html">ladybug_pandas.accessors package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_pandas.accessors.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html">ladybug_pandas.accessors.ladybug module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor.to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor.to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor.to_si"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor.to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugDataFrameAccessor.to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugDataFrameAccessor.to_unit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.check_type"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.check_type()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.to_si"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.to_unit()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.ladybug.html#ladybug_pandas.accessors.ladybug.LadybugSeriesAccessor.is_lb_array"><code class="docutils literal notranslate"><span class="pre">LadybugSeriesAccessor.is_lb_array</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html">ladybug_pandas.accessors.psychrometrics module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.db_temp_from_enth_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.db_temp_from_enth_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_enth"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_enth()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_rh"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_rh()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_rh_fast"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_rh_fast()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_wb"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.dew_point_from_db_wb()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.enthalpy_from_db_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.enthalpy_from_db_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.humid_ratio_from_db_rh"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.humid_ratio_from_db_rh()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.humid_ratio_from_db_wb"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.humid_ratio_from_db_wb()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_dpt"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_dpt()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_enth"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_enth()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_hr"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_hr()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_wb"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.rel_humid_from_db_wb()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.saturated_vapor_pressure"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.saturated_vapor_pressure()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.wet_bulb_from_db_rh"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.wet_bulb_from_db_rh()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.wet_bulb_from_db_rh_fast"><code class="docutils literal notranslate"><span class="pre">PsychrometricsAccessor.wet_bulb_from_db_rh_fast()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_pandas.accessors.html#module-ladybug_pandas.accessors">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_pandas.extension_types.html">ladybug_pandas.extension_types package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_pandas.extension_types.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html">ladybug_pandas.extension_types.arraytype module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.argmax"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.argmax()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.argmin"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.argmin()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.argsort"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.argsort()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.astype"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.astype()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.convert_to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.convert_to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.convert_to_si"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.convert_to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.convert_to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.convert_to_unit()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.copy"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.copy()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.delete"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.delete()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.dropna"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.dropna()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.equals"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.equals()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.factorize"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.factorize()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.fillna"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.fillna()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.isin"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.isin()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.isna"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.isna()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.ravel"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.ravel()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.repeat"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.repeat()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.searchsorted"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.searchsorted()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.shift"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.shift()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.take"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.take()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_ip"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_ip()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_numpy"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_numpy()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_si"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_si()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.to_unit"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.to_unit()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.transpose"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.transpose()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.unique"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.unique()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.value_counts"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.value_counts()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.view"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.view()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.T"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.T</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.dtype"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.dtype</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.nbytes"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.nbytes</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.ndim"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.ndim</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.shape"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.shape</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.arraytype.html#ladybug_pandas.extension_types.arraytype.LadybugArrayType.size"><code class="docutils literal notranslate"><span class="pre">LadybugArrayType.size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html">ladybug_pandas.extension_types.dtype module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType"><code class="docutils literal notranslate"><span class="pre">LadybugDType</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.construct_array_type"><code class="docutils literal notranslate"><span class="pre">LadybugDType.construct_array_type()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.construct_from_header"><code class="docutils literal notranslate"><span class="pre">LadybugDType.construct_from_header()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.construct_from_string"><code class="docutils literal notranslate"><span class="pre">LadybugDType.construct_from_string()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.is_dtype"><code class="docutils literal notranslate"><span class="pre">LadybugDType.is_dtype()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.to_header"><code class="docutils literal notranslate"><span class="pre">LadybugDType.to_header()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.data_type_name"><code class="docutils literal notranslate"><span class="pre">LadybugDType.data_type_name</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.kind"><code class="docutils literal notranslate"><span class="pre">LadybugDType.kind</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.na_value"><code class="docutils literal notranslate"><span class="pre">LadybugDType.na_value</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.name"><code class="docutils literal notranslate"><span class="pre">LadybugDType.name</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.names"><code class="docutils literal notranslate"><span class="pre">LadybugDType.names</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="../../../ladybug_pandas.extension_types.dtype.html#ladybug_pandas.extension_types.dtype.LadybugDType.type"><code class="docutils literal notranslate"><span class="pre">LadybugDType.type</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_pandas.extension_types.html#module-ladybug_pandas.extension_types">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ladybug_pandas.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_pandas.dataframe.html">ladybug_pandas.dataframe module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_pandas.dataframe.html#ladybug_pandas.dataframe.DataFrame"><code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../ladybug_pandas.dataframe.html#ladybug_pandas.dataframe.DataFrame.from_epw"><code class="docutils literal notranslate"><span class="pre">DataFrame.from_epw()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../ladybug_pandas.series.html">ladybug_pandas.series module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../ladybug_pandas.series.html#ladybug_pandas.series.Series"><code class="docutils literal notranslate"><span class="pre">Series</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ladybug_pandas.html#module-ladybug_pandas">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ladybug_pandas.html">ladybug_pandas package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ladybug_pandas.html">ladybug_pandas package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for ladybug_pandas.accessors.psychrometrics</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">ladybug</span> <span class="kn">import</span> <span class="n">psychrometrics</span>
+<span class="kn">from</span> <span class="nn">ladybug.datatype</span> <span class="kn">import</span> <span class="n">TYPESDICT</span>
+
+<span class="kn">from</span> <span class="nn">..extension_types.arraytype</span> <span class="kn">import</span> <span class="n">LadybugArrayType</span>
+<span class="kn">from</span> <span class="nn">..extension_types.dtype</span> <span class="kn">import</span> <span class="n">LadybugDType</span>
+
+
+<div class="viewcode-block" id="PsychrometricsAccessor"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor">[docs]</a><span class="nd">@pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">register_dataframe_accessor</span><span class="p">(</span><span class="s2">&quot;psychro&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">PsychrometricsAccessor</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;A pandas Dataframe accessor to perform psychrometric calculation operations</span>
+
+<span class="sd">        Use this &quot;psychro&quot; accessor and pass in the name of a column in your dataframe, </span>
+<span class="sd">        a Series or an int/float value to perform as psychormetric operation and return a Series.</span>
+
+<span class="sd">    Warning:</span>
+<span class="sd">        If using a Dataframe column or a Series you must ensure that it is an instance</span>
+<span class="sd">        of a LadybugArrayType. This is because the Psychrometric accessor runs type checks</span>
+<span class="sd">        to convert a data type to the right unit if necessary.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">        import ladybug_pandas as lbp</span>
+<span class="sd">        from ladybug.epw import EPW</span>
+
+<span class="sd">        epw_path = &#39;tests/assets/epw/tokyo.epw&#39;</span>
+
+<span class="sd">        epw = EPW(epw_path)</span>
+
+<span class="sd">        df = lbp.dataframe_from_epw(epw)</span>
+
+<span class="sd">        df[&#39;Humidity Ratio&#39;] = df.psychro.humid_ratio_from_db_rh(</span>
+<span class="sd">            db_temp=&#39;Dry Bulb Temperature&#39;,</span>
+<span class="sd">            rel_humid=&#39;Relative Humidity&#39;</span>
+<span class="sd">        )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pandas_obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="o">=</span> <span class="n">pandas_obj</span>
+
+    <span class="k">def</span> <span class="nf">_build_psychro_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">input_kwargs</span><span class="p">,</span> <span class="n">output_type</span><span class="p">,</span> <span class="n">output_unit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">input_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="n">function_inputs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">input_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">input_value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">[</span><span class="n">input_value</span><span class="p">]</span>
+                <span class="n">input_type</span> <span class="o">=</span> <span class="n">TYPESDICT</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;input_type&#39;</span><span class="p">]]</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="n">input_type</span><span class="p">),</span> \
+                    <span class="sa">f</span><span class="s1">&#39;Cannot use array of type </span><span class="si">{</span><span class="n">series</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">data_type</span><span class="si">}</span><span class="s1"> for </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">. Must be a </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;input_type&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+
+                <span class="n">input_df</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">to_unit</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;input_unit&#39;</span><span class="p">])</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">function_inputs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_value</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="o">**</span><span class="n">function_inputs</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">input_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="n">function_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="o">**</span><span class="n">function_inputs</span><span class="p">))</span>
+
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">LadybugDType</span><span class="p">(</span><span class="n">TYPESDICT</span><span class="p">[</span><span class="n">output_type</span><span class="p">](),</span> <span class="n">output_unit</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">LadybugArrayType</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="p">),</span>
+            <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.saturated_vapor_pressure"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.saturated_vapor_pressure">[docs]</a>    <span class="k">def</span> <span class="nf">saturated_vapor_pressure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_kelvin</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">LadybugArrayType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">saturated_vapor_pressure</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;t_kelvin&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Temperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;K&#39;</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;Pa&#39;</span><span class="p">,</span>
+            <span class="n">t_kelvin</span><span class="o">=</span><span class="n">t_kelvin</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.humid_ratio_from_db_rh"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.humid_ratio_from_db_rh">[docs]</a>    <span class="k">def</span> <span class="nf">humid_ratio_from_db_rh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">rel_humid</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Humidity ratio (kg water/kg air) from air temperature (C) and relative humidity (%).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            rel_humid: Relative humidity (%).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Humidity ratio (kg water/kg air).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn 20</span>
+
+<span class="sd">            [2] Meyer et al., (2019). PsychroLib: a library of psychrometric</span>
+<span class="sd">            functions to calculate thermodynamic properties of air. Journal of</span>
+<span class="sd">            Open Source Software, 4(33), 1137, https://doi.org/10.21105/joss.01137</span>
+<span class="sd">            https://github.com/psychrometrics/psychrolib/blob/master/src/python/psychrolib.py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">humid_ratio_from_db_rh</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;rel_humid&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;HumidityRatio&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">rel_humid</span><span class="o">=</span><span class="n">rel_humid</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.enthalpy_from_db_hr"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.enthalpy_from_db_hr">[docs]</a>    <span class="k">def</span> <span class="nf">enthalpy_from_db_hr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">humid_ratio</span><span class="p">,</span> <span class="n">reference_temp</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enthalpy (kJ/kg) at a given humidity ratio (water/air) and dry bulb temperature (C).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            humid_ratio: Humidity ratio (kg water/kg air).</span>
+<span class="sd">            reference_temp: Reference dry air temperature (C). Default is 0C,</span>
+<span class="sd">                which is standard practice for SI enthalpy values. However, for</span>
+<span class="sd">                IP enthalpy, this is typically at 0F (-17.78C). Alternatively, for</span>
+<span class="sd">                aboslute thermodynamic enthalpy, one can input 0K (-273.15).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Enthalpy (kJ/kg).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn 30</span>
+
+<span class="sd">            [2] Meyer et al., (2019). PsychroLib: a library of psychrometric</span>
+<span class="sd">            functions to calculate thermodynamic properties of air. Journal of</span>
+<span class="sd">            Open Source Software, 4(33), 1137, https://doi.org/10.21105/joss.01137</span>
+<span class="sd">            https://github.com/psychrometrics/psychrolib/blob/master/src/python/psychrolib.py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">enthalpy_from_db_hr</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;humid_ratio&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;HumidityRatio&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;reference_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;Enthalpy&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;kJ/kg&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">humid_ratio</span><span class="o">=</span><span class="n">humid_ratio</span><span class="p">,</span>
+            <span class="n">reference_temp</span><span class="o">=</span><span class="n">reference_temp</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.dew_point_from_db_rh"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_rh">[docs]</a>    <span class="k">def</span> <span class="nf">dew_point_from_db_rh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">rel_humid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dew point temperature (C) from air temperature (C) and relative humidity (%).</span>
+
+<span class="sd">        The dew point temperature is solved by inverting the equation giving water vapor</span>
+<span class="sd">        pressure at saturation from temperature, which is relatively slow but ensures</span>
+<span class="sd">        high accuracy down to 0.1 C at a wide range of dry bulb temperatures.</span>
+<span class="sd">        The Newton-Raphson (NR) method is used on the logarithm of water vapour</span>
+<span class="sd">        pressure as a function of temperature, which is a very smooth function</span>
+<span class="sd">        Convergence is usually achieved in 3 to 5 iterations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            rel_humid: Relative humidity (%).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dew point temperature (C).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn. 5 and 6</span>
+
+<span class="sd">            [2] Meyer et al., (2019). PsychroLib: a library of psychrometric</span>
+<span class="sd">            functions to calculate thermodynamic properties of air. Journal of</span>
+<span class="sd">            Open Source Software, 4(33), 1137, https://doi.org/10.21105/joss.01137</span>
+<span class="sd">            https://github.com/psychrometrics/psychrolib/blob/master/src/python/psychrolib.py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">dew_point_from_db_rh</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;rel_humid&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;DewPointTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">rel_humid</span><span class="o">=</span><span class="n">rel_humid</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.wet_bulb_from_db_rh"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.wet_bulb_from_db_rh">[docs]</a>    <span class="k">def</span> <span class="nf">wet_bulb_from_db_rh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">rel_humid</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wet bulb temperature (C) from air temperature (C) and relative humidity (%).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            rel_humid: Relative humidity (%).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Wet bulb temperature (C).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn 33 and 35</span>
+
+<span class="sd">            [2] Meyer et al., (2019). PsychroLib: a library of psychrometric</span>
+<span class="sd">            functions to calculate thermodynamic properties of air. Journal of</span>
+<span class="sd">            Open Source Software, 4(33), 1137, https://doi.org/10.21105/joss.01137</span>
+<span class="sd">            https://github.com/psychrometrics/psychrolib/blob/master/src/python/psychrolib.py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">wet_bulb_from_db_rh</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;rel_humid&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;WetBulbTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">rel_humid</span><span class="o">=</span><span class="n">rel_humid</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.rel_humid_from_db_hr"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_hr">[docs]</a>    <span class="k">def</span> <span class="nf">rel_humid_from_db_hr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">humid_ratio</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Relative Humidity (%) from humidity ratio (water/air) and air temperature (C).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            humid_ratio: Humidity ratio (kg water/kg air).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Relative humidity (%).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">rel_humid_from_db_hr</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;humid_ratio&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;HumidityRatio&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">humid_ratio</span><span class="o">=</span><span class="n">humid_ratio</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.rel_humid_from_db_enth"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_enth">[docs]</a>    <span class="k">def</span> <span class="nf">rel_humid_from_db_enth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">enthalpy</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">,</span> <span class="n">reference_temp</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Relative Humidity (%) from air temperature (C) and enthalpy (kJ/kg).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            enthalpy: Enthalpy (kJ/kg).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+<span class="sd">            reference_temp: Reference dry air temperature (C). Default is 0C,</span>
+<span class="sd">                which is standard practice for SI enthalpy values. However, for</span>
+<span class="sd">                IP enthalpy, this is typically at 0F (-17.78C). Alternatively, for</span>
+<span class="sd">                aboslute thermodynamic enthalpy, one can input 0K (-273.15).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Relative humidity (%).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">rel_humid_from_db_enth</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;enthalpy&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Enthalpy&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;kJ/kg&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;reference_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">enthalpy</span><span class="o">=</span><span class="n">enthalpy</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+            <span class="n">reference_temp</span><span class="o">=</span><span class="n">reference_temp</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.rel_humid_from_db_dpt"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_dpt">[docs]</a>    <span class="k">def</span> <span class="nf">rel_humid_from_db_dpt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">dew_pt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Relative humidity (%) from dry bulb temperature (C), and dew point temperature (C).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            dew_pt: Dew point temperature (C).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Relative humidity (%).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">dew_point_from_db_rh</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;dew_pt&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DewPointTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">dew_pt</span><span class="o">=</span><span class="n">dew_pt</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.rel_humid_from_db_wb"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.rel_humid_from_db_wb">[docs]</a>    <span class="k">def</span> <span class="nf">rel_humid_from_db_wb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">wet_bulb</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Relative humidity (%) from dry bulb temperature (C), and wet bulb temperature (C).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            wet_bulb: Wet bulb temperature (C).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Relative humidity (%).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">rel_humid_from_db_wb</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;wet_bulb&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;WetBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">wet_bulb</span><span class="o">=</span><span class="n">wet_bulb</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.dew_point_from_db_hr"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_hr">[docs]</a>    <span class="k">def</span> <span class="nf">dew_point_from_db_hr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">humid_ratio</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dew Point Temperature (C) from air temperature (C) and humidity ratio (water/air).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            humid_ratio: Humidity ratio (kg water/kg air).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dew point temperature (C).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">dew_point_from_db_hr</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;humid_ratio&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;HumidityRatio&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;DewPointTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">humid_ratio</span><span class="o">=</span><span class="n">humid_ratio</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.dew_point_from_db_enth"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_enth">[docs]</a>    <span class="k">def</span> <span class="nf">dew_point_from_db_enth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">enthalpy</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">,</span> <span class="n">reference_temp</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dew point temperature (C) from air temperature (C) and enthalpy (kJ/kg).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            enthalpy: Enthalpy (kJ/kg).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+<span class="sd">            reference_temp: Reference dry air temperature (C). Default is 0C,</span>
+<span class="sd">                which is standard practice for SI enthalpy values. However, for</span>
+<span class="sd">                IP enthalpy, this is typically at 0F (-17.78C). Alternatively, for</span>
+<span class="sd">                aboslute thermodynamic enthalpy, one can input 0K (-273.15).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dew point temperature (C).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">dew_point_from_db_enth</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;enthalpy&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Enthalpy&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;kJ/kg&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;reference_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;DewPointTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">enthlpy</span><span class="o">=</span><span class="n">enthalpy</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+            <span class="n">reference_temp</span><span class="o">=</span><span class="n">reference_temp</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.dew_point_from_db_wb"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_wb">[docs]</a>    <span class="k">def</span> <span class="nf">dew_point_from_db_wb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">wet_bulb</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dew point temperature (C) from dry bulb (C) and wet bulb temperature (C).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            wet_bulb: Wet bulb temperature (C).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dew point temperature (C).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">dew_point_from_db_wb</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;wet_bulb&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;WetBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;DewPointTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">wet_bulb</span><span class="o">=</span><span class="n">wet_bulb</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.humid_ratio_from_db_wb"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.humid_ratio_from_db_wb">[docs]</a>    <span class="k">def</span> <span class="nf">humid_ratio_from_db_wb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">wb_temp</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Humidity ratio from air temperature (C) and wet bulb temperature (C).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            wb_temp: Wet bulb temperature (C).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Humidity ratio (kg water / kg air).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn 36, solved for W</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">humid_ratio_from_db_wb</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;wb_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;WetBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;HumidityRatio&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">wb_temp</span><span class="o">=</span><span class="n">wb_temp</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.db_temp_from_enth_hr"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.db_temp_from_enth_hr">[docs]</a>    <span class="k">def</span> <span class="nf">db_temp_from_enth_hr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enthalpy</span><span class="p">,</span> <span class="n">humid_ratio</span><span class="p">,</span> <span class="n">reference_temp</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dry bulb temperature (C) from enthalpy (kJ/kg) and humidity ratio (water/air).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            enthalpy: Enthalpy (kJ/kg).</span>
+<span class="sd">            humid_ratio: Humidity ratio (kg water/kg air).</span>
+<span class="sd">            reference_temp: Reference dry air temperature (C). Default is 0C,</span>
+<span class="sd">                which is standard practice for SI enthalpy values. However, for</span>
+<span class="sd">                IP enthalpy, this is typically at 0F (-17.78C). Alternatively, for</span>
+<span class="sd">                aboslute thermodynamic enthalpy, one can input 0K (-273.15).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dry bulb temperature (C).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] ASHRAE Handbook - Fundamentals (2017) ch. 1 eqn 30</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">db_temp_from_enth_hr</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;enthalpy&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Enthalpy&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;kJ/kg&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;humid_ratio&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;HumidityRatio&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;reference_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">enthalpy</span><span class="o">=</span><span class="n">enthalpy</span><span class="p">,</span>
+            <span class="n">humid_ratio</span><span class="o">=</span><span class="n">humid_ratio</span><span class="p">,</span>
+            <span class="n">reference_temp</span><span class="o">=</span><span class="n">reference_temp</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.dew_point_from_db_rh_fast"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.dew_point_from_db_rh_fast">[docs]</a>    <span class="k">def</span> <span class="nf">dew_point_from_db_rh_fast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">rel_humid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dew point temperature (C) from air temperature (C) and relative humidity (%).</span>
+
+<span class="sd">        Note that the formula here is fast but is only accurate up to 90C. For accurate</span>
+<span class="sd">        values at extreme temperatures, the dew_point_from_db_rh</span>
+<span class="sd">        function should be used.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            rel_humid: Relative humidity (%).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dew point temperature (C).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] J. Sullivan and L. D. Sanders. &quot;Method for obtaining wet-bulb temperatures</span>
+<span class="sd">            by modifying the psychrometric formula.&quot; Center for Experiment Design and Data</span>
+<span class="sd">            Analysis. NOAA - National Oceanic and Atmospheric Administration.</span>
+<span class="sd">            https://www.weather.gov/epz/wxcalc_rh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">dew_point_from_db_rh_fast</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;rel_humid&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;DewPointTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">rel_humid</span><span class="o">=</span><span class="n">rel_humid</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PsychrometricsAccessor.wet_bulb_from_db_rh_fast"><a class="viewcode-back" href="../../../ladybug_pandas.accessors.psychrometrics.html#ladybug_pandas.accessors.psychrometrics.PsychrometricsAccessor.wet_bulb_from_db_rh_fast">[docs]</a>    <span class="k">def</span> <span class="nf">wet_bulb_from_db_rh_fast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">,</span> <span class="n">rel_humid</span><span class="p">,</span> <span class="n">b_press</span><span class="o">=</span><span class="mi">101325</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wet bulb temperature (C) from air temperature (C) and relative humidity (%).</span>
+
+<span class="sd">        Note that the formula here is fast but is only accurate around temperatures</span>
+<span class="sd">        of 20C and lower. For accurate values at extreme temperatures, the</span>
+<span class="sd">        wet_bulb_from_db_rh function should be used.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp: Dry bulb temperature (C).</span>
+<span class="sd">            rel_humid: Relative humidity (%).</span>
+<span class="sd">            b_press: Air pressure (Pa). Default is pressure at sea level (101325 Pa).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Wet bulb temperature (C).</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            [1] J. Sullivan and L. D. Sanders. &quot;Method for obtaining wet-bulb temperatures</span>
+<span class="sd">            by modifying the psychrometric formula.&quot; Center for Experiment Design and Data</span>
+<span class="sd">            Analysis. NOAA - National Oceanic and Atmospheric Administration.</span>
+<span class="sd">            https://www.weather.gov/epz/wxcalc_rh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">wet_bulb_from_db_rh_fast</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;DryBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;rel_humid&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RelativeHumidity&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;%&#39;</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;b_press&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;WetBulbTemperature&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">rel_humid</span><span class="o">=</span><span class="n">rel_humid</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_d_ln_p_ws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_temp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function returning the derivative of the natural log of the</span>
+<span class="sd">        saturation vapor pressure as a function of dry-bulb temperature.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_temp : Dry bulb temperature (C).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Derivative of natural log of vapor pressure of saturated air in Pa.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_psychro_function</span><span class="p">(</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">psychrometrics</span><span class="o">.</span><span class="n">_d_ln_p_ws</span><span class="p">,</span>
+            <span class="n">input_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;db_temp&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;input_type&#39;</span><span class="p">:</span> <span class="s1">&#39;WetBulbTemperature&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;input_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+            <span class="n">output_type</span><span class="o">=</span><span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+            <span class="n">output_unit</span><span class="o">=</span><span class="s1">&#39;Pa&#39;</span><span class="p">,</span>
+            <span class="n">db_temp</span><span class="o">=</span><span class="n">db_temp</span><span class="p">,</span>
+            <span class="n">rel_humid</span><span class="o">=</span><span class="n">rel_humid</span><span class="p">,</span>
+            <span class="n">b_press</span><span class="o">=</span><span class="n">b_press</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
