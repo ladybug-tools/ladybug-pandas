@@ -34,9 +34,7 @@ class Series:
     """
 
     def __new__(cls, data_collection) -> pd.Series:
-
         array = LadybugArrayType._from_data_collection(data_collection)
-
         return pd.Series(
             data=array,
             index=data_collection.datetimes

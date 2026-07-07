@@ -1,5 +1,4 @@
 from typing import Union
-
 import pandas as pd
 
 from ladybug import psychrometrics
@@ -11,7 +10,6 @@ from ..extension_types.dtype import LadybugDType
 
 @pd.api.extensions.register_dataframe_accessor("psychro")
 class PsychrometricsAccessor:
-
     """A pandas Dataframe accessor to perform psychrometric calculation operations
 
         Use this "psychro" accessor and pass in the name of a column in your dataframe, 
@@ -40,14 +38,11 @@ class PsychrometricsAccessor:
         )
 
     """
-
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
     def _build_psychro_function(self, function, input_kwargs, output_type, output_unit, **kwargs):
-
         input_df = pd.DataFrame()
-
         function_inputs = {}
 
         for k, v in input_kwargs.items():
@@ -59,8 +54,7 @@ class PsychrometricsAccessor:
                     f'Cannot use array of type {series.values.dtype.data_type} for {k}. Must be a {v["input_type"]}'
 
                 input_df[k] = series.values.to_unit(v['input_unit'])
-
-            elif isinstance(input_value, float) or isinstance(input_value, int):
+            elif isinstance(input_value, (float, int)):
                 function_inputs[k] = input_value
 
         values = []
@@ -80,7 +74,6 @@ class PsychrometricsAccessor:
         )
 
     def saturated_vapor_pressure(self, t_kelvin: Union[str, float, int, LadybugArrayType]) -> pd.Series:
-
         return self._build_psychro_function(
             function=psychrometrics.saturated_vapor_pressure,
             input_kwargs={
@@ -694,7 +687,5 @@ class PsychrometricsAccessor:
             },
             output_type='Pressure',
             output_unit='Pa',
-            db_temp=db_temp,
-            rel_humid=rel_humid,
-            b_press=b_press,
+            db_temp=db_temp
         )

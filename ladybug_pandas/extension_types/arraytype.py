@@ -30,7 +30,7 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
                 self._dtype = dtype
 
         if isinstance(dtype, ExtensionDtype) or dtype is None:
-            values = np.asarray(values, dtype=np.float_)
+            values = np.asarray(values, dtype=np.float64)
         elif isinstance(values, LadybugArrayType):
             values = values.data
             self._dtype = values.dtype
@@ -118,7 +118,7 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         elif isinstance(original, list):
             dtype = original[0].dtype
         else:
-            raise f'Original value of type {type(original)} not supported'
+            raise ValueError(f'Original value of type {type(original)} not supported')
 
         return cls(values, dtype)
 
@@ -198,6 +198,19 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         new_data_c.convert_to_si()
         return new_data_c
 
+    def to_numpy(self, dtype=None, copy=False, na_value=None):
+        if dtype is not None:
+            data = np.asarray(self.data, dtype=dtype)
+        elif copy:
+            data = self.data.copy()
+        else:
+            data = self.data
+
+        if getattr(self, '_readonly', False):
+            data = data.view()
+            data.flags.writeable = False
+        return data
+
     def __getitem__(self, item):
         # type (Any) -> Any
         """
@@ -222,35 +235,28 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         to the values where ``item`` is True.
         """
         if isinstance(item, int):
-            datum = self.data[item]
             return self.data[item]
         elif isinstance(item, slice):
             pass
         elif isinstance(item, np.ndarray):
             if item.dtype == bool and len(item) != len(self):
-                raise IndexError(
-                    f'Boolean index has wrong length: {item.size} instead of {self.data.size}')
+                raise IndexError(f'Boolean index has wrong length: {item.size} instead of {self.data.size}')
         elif isinstance(item, list):
             try:
-                item = np.asarray(item, dtype=np.int_)
-            except Exception as e:
-                raise ValueError(
-                    "Cannot index with an integer indexer containing NA values")
-
-        elif isinstance(item, pd.core.arrays.boolean.BooleanArray):
+                item = np.asarray(item, dtype=np.int64)
+            except Exception:
+                raise ValueError("Cannot index with an integer indexer containing NA values")
+        elif isinstance(item, pd.arrays.BooleanArray):
             if len(item) != len(self):
-                raise IndexError(
-                    f'Boolean index has wrong length: {len(item)} instead of {len(self)}')
-
+                raise IndexError(f'Boolean index has wrong length: {len(item)} instead of {len(self)}')
             item = item.to_numpy(dtype="bool", na_value=False)
-        elif isinstance(item, pd.core.arrays.integer.IntegerArray):
+        elif isinstance(item, pd.arrays.IntegerArray):
             try:
                 item = item.to_numpy(dtype="int", na_value=pd.NA)
-            except Exception as e:
-                raise ValueError(
-                    "Cannot index with an integer indexer containing NA values")
+            except Exception:
+                raise ValueError("Cannot index with an integer indexer containing NA values")
         else:
-            raise IndexError(f'Item type note recognised {type(item)}')
+            raise IndexError(f'Item type not recognised {type(item)}')
 
         view = self.view()
         view.data = view.data[item]
@@ -314,19 +320,19 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         #   __init__ method coerces that value, then so should __setitem__
         # Note, also, that Series/DataFrame.where internally use __setitem__
         # on a copy of the data.
+        if getattr(self, '_readonly', False):
+            raise ValueError("Cannot modify read-only array")
 
-        if isinstance(key, pd.core.arrays.BooleanArray):
+        if isinstance(key, pd.arrays.BooleanArray):
             key = key.fillna(False)
             key = key.to_numpy(dtype="bool")
-        elif isinstance(key, pd.core.arrays.IntegerArray):
+        elif isinstance(key, pd.arrays.IntegerArray):
             try:
                 key = key.to_numpy(dtype="int")
             except ValueError as error:
-                if 'Specify an appropriate \'na_value\'' in str(error):
-                    raise ValueError(
-                        'Cannot index with an integer indexer containing NA values')
+                if "Specify an appropriate 'na_value'" in str(error):
+                    raise ValueError('Cannot index with an integer indexer containing NA values')
                 raise error
-
         elif isinstance(key, list):
             list_type = None
             list_item = 0
@@ -341,16 +347,14 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
                 else:
                     list_item += 1
 
-            assert list_type is not None, IndexError(
-                'arrays used as indices must be of integer (or boolean) type')
+            if list_type is None:
+                raise IndexError('arrays used as indices must be of integer (or boolean) type')
 
             try:
                 key = np.asarray(key, dtype=list_type)
             except TypeError as error:
-                if 'int() argument must be a string, a bytes-like object or a number, not \'NAType\'' in str(error):
-                    raise ValueError(
-                        'Cannot index with an integer indexer containing NA values')
-
+                if "int() argument must be a string" in str(error) or "NAType" in str(error):
+                    raise ValueError('Cannot index with an integer indexer containing NA values')
                 raise error
 
             if list_type == 'bool':
@@ -359,20 +363,9 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         try:
             self.data[key] = value
         except IndexError as error:
-            if "boolean index did not match indexed array along dimension" in str(error):
+            if "boolean index did not match indexed array" in str(error):
                 raise IndexError('wrong length: ' + str(error))
-            else:
-                raise error
-
-    # def __add__(self, other):
-
-    #     if isinstance(other, self.__class__):
-    #         self.data += other.data
-
-    #     elif isinstance(other, (float, int, np.array)):
-    #         self.data += other
-
-    #     # elif isi
+            raise error
 
     @property
     def dtype(self) -> ExtensionDtype:
@@ -380,10 +373,6 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         An instance of 'ExtensionDtype'.
         """
         return self._dtype
-        # if self._dtype is None:
-        #     return self.data.dtype
-        # else:
-        #     return self._dtype
 
     @property
     def nbytes(self) -> int:
@@ -399,30 +388,8 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
     def _ndarray(self):
         return self.data
 
-    def _reduce(self, name, skipna=True, **kwargs):
-        """
-        Return a scalar result of performing the reduction operation.
-        Parameters
-        ----------
-        name : str
-            Name of the function, supported values are:
-            { any, all, min, max, sum, mean, median, prod,
-            std, var, sem, kurt, skew }.
-        skipna : bool, default True
-            If True, skip NaN values.
-        **kwargs
-            Additional keyword arguments passed to the reduction function.
-            Currently, `ddof` is the only supported kwarg.
-        Returns
-        -------
-        scalar
-        Raises
-        ------
-        TypeError : subclass does not define reductions
-        """
-
+    def _reduce(self, name, *, skipna=True, keepdims=False, **kwargs):
         root = np
-
         child_kwargs = {}
 
         if 'ddof' in kwargs:
@@ -437,11 +404,12 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
             child_kwargs['bias'] = False
             root = stats
 
+        if keepdims:
+            child_kwargs['keepdims'] = keepdims
+
         if skipna is True:
-            # return getattr(self.data[~np.isnan(self.data)], name)(**child_kwargs)
             return getattr(root, name)(self.data[~np.isnan(self.data)], **child_kwargs)
         else:
-            # return getattr(self.data, name)(**child_kwargs)
             return getattr(root, name)(self.data, **child_kwargs)
 
     def isna(self) -> ArrayLike:
@@ -476,7 +444,7 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         -------
         Series
         """
-        from pandas import Index, Series
+        from pandas import Series
 
         if dropna:
             values = self[~self.isna()].data
@@ -488,7 +456,7 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         return Series(counts, index=unique, dtype="int64")
 
     def take(
-        self, indices: Sequence[int], allow_fill: bool = False, fill_value: Any = None
+        self, indices: Sequence[int], *, allow_fill: bool = False, fill_value: Any = None, **kwargs
     ) -> "ExtensionArray":
         """
         Take elements from an array.
@@ -562,8 +530,8 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
         # pandas.api.extensions.take
         copy = self.copy()
         copy.data = pd.api.extensions.take(
-            copy.data, indices, allow_fill=allow_fill, fill_value=fill_value)
-
+            copy.data, indices, allow_fill=allow_fill, fill_value=fill_value
+        )
         return copy
 
     def copy(self) -> "ExtensionArray":
@@ -625,7 +593,6 @@ class LadybugArrayType(ExtensionArray, ExtensionScalarOpsMixin):
                 return self.copy()
             return self
 
-        # return np.array(self.data, dtype=dtype, copy=copy)
         return super(LadybugArrayType, self).astype(dtype)
 
 

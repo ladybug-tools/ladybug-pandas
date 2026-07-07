@@ -13,7 +13,6 @@ from .extension_types.arraytype import LadybugArrayType
 
 
 class DataFrame:
-
     """Generate a Dataframe from a list of ladybug data collections
 
     Example:
@@ -50,7 +49,6 @@ class DataFrame:
     Returns:
         pd.DataFrame -- A pandas dataframe. Each column will have a type of LadybugArrayType
     """
-
     def __new__(
         cls,
         data_collections: List[Union[HourlyDiscontinuousCollection, HourlyContinuousCollection, DailyCollection, MonthlyCollection, MonthlyPerHourCollection]],
@@ -101,10 +99,7 @@ class DataFrame:
         return df
 
     @classmethod
-    def from_epw(
-        cls,
-        epw: EPW
-    ) -> pd.DataFrame:
+    def from_epw(cls, epw: EPW) -> pd.DataFrame:
         """Generate a Dataframe from an EPW object
 
         Example:
@@ -129,7 +124,6 @@ class DataFrame:
             epw._import_data()
 
         df = cls(epw._data[6:])
-
         df = df.replace(999999999.0, np.nan)
 
         return df

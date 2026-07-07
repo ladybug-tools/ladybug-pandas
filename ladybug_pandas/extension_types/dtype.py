@@ -60,23 +60,17 @@ class LadybugDType(ExtensionDtype):
     @classmethod
     def construct_from_string(cls, string):
         if not isinstance(string, str):
-            raise TypeError(
-                "'construct_from_string' expects a string, got {}".format(
-                    type(string))
-            )
+            raise TypeError(f"'construct_from_string' expects a string, got {type(string)}")
 
         match = re.fullmatch(r"(.*) \((.*)\)", string)
 
         if match is None:
-            raise TypeError(
-                "Cannot construct a 'LadybugDType' from '{}'".format(string)
-            )
+            raise TypeError(f"Cannot construct a 'LadybugDType' from '{string}'")
 
         type_name = ''.join(match[1].split(' '))
         unit = match[2]
 
-        assert type_name in TYPESDICT, ValueError(
-            f'Ladybug Type of {type_name} is not recognized')
+        assert type_name in TYPESDICT, ValueError(f'Ladybug Type of {type_name} is not recognized')
         data_type = TYPESDICT[type_name]()
 
         assert unit in data_type._units, ValueError(
@@ -115,10 +109,11 @@ class LadybugDType(ExtensionDtype):
 
     @property
     def type(self):
-        try:
-            return np.float
-        except AttributeError:
-            return float
+        return float
+
+    @property
+    def itemsize(self) -> int:
+        return np.dtype(float).itemsize
 
     @property
     def _is_numeric(self):
@@ -130,7 +125,6 @@ class LadybugDType(ExtensionDtype):
 
     @property
     def name(self):
-        # return "{} ({})".format(self.data_type, self.unit)
         return self.__repr__()
 
     @property

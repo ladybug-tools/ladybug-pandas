@@ -15,7 +15,7 @@ class LadybugSeriesAccessor:
 
     def check_type(self):
         assert self.is_lb_array, \
-            f'Cannort perform ladybug operation on Array of type {type(self._obj.values)}'
+            f'Cannot perform ladybug operation on Array of type {type(self._obj.values)}'
 
     def to_si(self):
         self.check_type()
